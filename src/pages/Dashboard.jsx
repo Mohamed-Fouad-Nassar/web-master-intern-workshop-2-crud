@@ -21,6 +21,7 @@ export default function Dashboard() {
             Login
           </Link>
         </li>
+        <br />
         <li>
           <Link
             to="dashboard"
@@ -29,6 +30,49 @@ export default function Dashboard() {
             Dashboard
           </Link>
         </li>
+        <br />
+        <li>
+          <Link
+            to="products"
+            className="text-blue-800 hover:text-blue-950 hover:underline"
+          >
+            Products
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="products/create"
+            className="text-blue-800 hover:text-blue-950 hover:underline"
+          >
+            Create New Product
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="products/1/edit"
+            className="text-blue-800 hover:text-blue-950 hover:underline"
+          >
+            Edit Product
+          </Link>
+        </li>
+        <br />
+        <li>
+          <Link
+            to="users"
+            className="text-blue-800 hover:text-blue-950 hover:underline"
+          >
+            Users
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="users/create"
+            className="text-blue-800 hover:text-blue-950 hover:underline"
+          >
+            Create New User
+          </Link>
+        </li>
+        <br />
         <li>
           <Link
             to="error"

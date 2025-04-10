@@ -1,16 +1,18 @@
 import { Outlet } from "react-router";
 
 import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Sidebar from "../components/Sidebar";
 
 export default function MainLayout() {
   return (
-    <>
+    <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] h-screen">
       <Header />
-      <main className="min-h-[calc(100dvh-115px)] py-4 container mx-auto">
-        <Outlet />
+      <Sidebar />
+      <main className="overflow-y-auto">
+        <div className="px-8 py-6 container mx-auto">
+          <Outlet />
+        </div>
       </main>
-      <Footer />
-    </>
+    </div>
   );
 }

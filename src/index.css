@@ -1,1 +1,21 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Light Mode */
+  --color-primary-txt: #000;
+  --color-secondary-txt: #acacac;
+  --color-third-txt: #feaf00;
+  --color-primary-bg: #fff;
+  --color-secondary-bg: #f8f8f8;
+  --color-third-bg: #f2eae1;
+  --color-primary-btn-bg: #feaf00;
+
+  /* Light Mode */
+  --color-primary-txt-dark: ;
+  --color-secondary-txt-dark: ;
+  --color-third-txt-dark: ;
+  --color-primary-bg-dark: ;
+  --color-secondary-bg-dark: ;
+  --color-third-bg-dark: ;
+}

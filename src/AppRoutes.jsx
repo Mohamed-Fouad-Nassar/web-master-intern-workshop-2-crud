@@ -6,8 +6,13 @@ import AuthLayout from "./layouts/AuthLayout";
 
 import Error from "./pages/Error";
 import Login from "./pages/Login";
+import Users from "./pages/Users";
 import Register from "./pages/Register";
+import Products from "./pages/Products";
 import Dashboard from "./pages/Dashboard";
+import CreateUser from "./pages/CreateUser";
+import EditProduct from "./pages/EditProduct";
+import CreateProduct from "./pages/CreateProduct";
 
 export default function AppRoutes() {
   return (
@@ -17,6 +22,13 @@ export default function AppRoutes() {
         {/* Main Layout */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Dashboard />} />
+
+          <Route path="products" element={<Products />} />
+          <Route path="products/create" element={<CreateProduct />} />
+          <Route path="products/:productId/edit" element={<EditProduct />} />
+
+          <Route path="users" element={<Users />} />
+          <Route path="users/create" element={<CreateUser />} />
         </Route>
 
         {/* Auth Layout */}
