@@ -19,3 +19,77 @@
   --color-secondary-bg-dark: ;
   --color-third-bg-dark: ;
 }
+
+/* productForms */
+.productForms h1{
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: var(--color-primary-txt);
+  position: relative;
+  
+}
+.productForms h1::before{
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 11px;
+  width: 5px;
+  height: 26px;
+  background-color: var(--color-primary-btn-bg);
+  border-radius: .5rem;
+}
+.productForms form{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.productForms form div:not(:nth-child(3)){
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.productForms form label{
+  font-weight: 550;
+  font-size: 20px;
+  color: var(--color-primary-txt);
+}
+.productForms form input{
+  max-width: 50%;
+  border: 1px solid var(--color-secondary-txt);
+  padding: 10px;
+  border-radius: .3rem;
+  transition: .3s ease-out;
+}
+.productForms form input:focus{
+  outline-color: var(--color-primary-btn-bg);
+  caret-color: var(--color-primary-btn-bg);
+}
+.productForms form .button{
+  width: fit-content;
+  background-color: var(--color-primary-btn-bg);
+  padding: 10px 15px;
+  border: 2px solid var(--color-primary-btn-bg);
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 550;
+  transition: .3s ease-in-out;
+}
+.productForms form .button:hover{
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary-btn-bg);
+}
+.addImage{
+  cursor: pointer;
+  border: 2px dashed var(--color-primary-btn-bg);
+  width: 50%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: .5rem;
+}
+.addImage img{
+  max-width: 20%;
+}
