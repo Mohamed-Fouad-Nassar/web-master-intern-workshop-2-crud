@@ -1,10 +1,13 @@
 import { HiMiniEye, HiMiniPencil, HiMiniTrash } from "react-icons/hi2";
+import { useOpenModal } from "../../hooks/useModal";
 
 import Button from "../../components/Button";
 
 import { formatPrice } from "../../utils/helpers";
 
 export default function ProductsTable({ products }) {
+  const openModal = useOpenModal();
+
   return (
     <div className="my-4 overflow-x-auto text-sm">
       <table className="min-w-full border-separate border-spacing-y-3">
@@ -38,7 +41,11 @@ export default function ProductsTable({ products }) {
               <td title={discount}>{formatPrice(discount)}</td>
               <td>
                 <div className="max-w-fit flex gap-2 overflow-hidden *:text-lg">
-                  <Button variation="ghost" size="sm">
+                  <Button
+                    onClick={() => openModal(id)}
+                    variation="ghost"
+                    size="sm"
+                  >
                     <HiMiniEye className="text-third-txt dark:text-third-txt-dark" />
                   </Button>
                   <Button variation="ghost" size="sm">

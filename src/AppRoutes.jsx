@@ -1,5 +1,6 @@
 import { Toaster } from "react-hot-toast";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
+import { useLocation } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
@@ -13,13 +14,23 @@ import Dashboard from "./pages/Dashboard";
 import CreateUser from "./pages/CreateUser";
 import EditProduct from "./pages/EditProduct";
 import CreateProduct from "./pages/CreateProduct";
+import { useEffect } from "react";
+import { useCloseModal } from "./hooks/useModal";
 
 import { DarkModeProvider } from "./contexts/DarkModeContext";
 
 export default function AppRoutes() {
+  const { pathname } = useLocation();
+  const closeModal = useCloseModal();
+
+  // Close modal if the user navigates to a different page
+  useEffect(() => {
+    closeModal();
+  }, [pathname]);
+
   return (
     // <DarkModeProvider>
-    <BrowserRouter>
+    <>
       <Toaster position="top-right" />
       <Routes>
         {/* Main Layout */}
@@ -43,7 +54,6 @@ export default function AppRoutes() {
         {/* Error Page or Not Found Page */}
         <Route path="*" element={<Error />} />
       </Routes>
-    </BrowserRouter>
-    // </DarkModeProvider>
+    </>
   );
 }
