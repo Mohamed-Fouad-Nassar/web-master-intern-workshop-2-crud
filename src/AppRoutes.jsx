@@ -14,8 +14,11 @@ import CreateUser from "./pages/CreateUser";
 import EditProduct from "./pages/EditProduct";
 import CreateProduct from "./pages/CreateProduct";
 
+import { DarkModeProvider } from "./contexts/DarkModeContext";
+
 export default function AppRoutes() {
   return (
+    // <DarkModeProvider>
     <BrowserRouter>
       <Toaster position="top-right" />
       <Routes>
@@ -41,5 +44,6 @@ export default function AppRoutes() {
         <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
+    // </DarkModeProvider>
   );
 }

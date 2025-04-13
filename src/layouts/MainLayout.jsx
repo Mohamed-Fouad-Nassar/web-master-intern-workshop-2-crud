@@ -8,8 +8,8 @@ export default function MainLayout() {
     <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] h-screen">
       <Header />
       <Sidebar />
-      <main className="overflow-y-auto">
-        <div className="px-8 py-6 container mx-auto">
+      <main className="overflow-y-auto bg-secondary-bg dark:bg-secondary-bg-dark">
+        <div className="px-4 py-2 container mx-auto">
           <Outlet />
         </div>
       </main>
