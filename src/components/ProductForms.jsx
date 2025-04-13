@@ -9,8 +9,8 @@ const ProductForms = ({use}) => {
 const [formData, setFormData] = useState({
   title: "",
   description: "",
-  price: null,
-  discount: null,
+  price: "",
+  discount: "",
   img: "",
 });
 const handleChange = (name, value) => {
@@ -20,6 +20,7 @@ const handleChange = (name, value) => {
   }));
 };
 const navigate = useNavigate();
+const [error, setError] = useState(null);
 // Fetching data for edit form
 useEffect(() => {
   if (use === "Edit") {
@@ -30,27 +31,34 @@ useEffect(() => {
       )
       .then((res) => {
         setFormData(res.data);
+      }).catch((err) => {
+        console.error("Error fetching product data:", err);
+        setError("Failed to fetch product data. Please try again later.");
       });
-  }
+    }
 }, [use]);
 // for handeling the submit button
-  function handleSubmit(e) {
-    e.preventDefault();
+async function handleSubmit(e) {
+  e.preventDefault();
+  try {
     if (use === "Create") {
-      axios.post(
+      await axios.post(
         `https://web-master-intern-workshop-2-crud-backend.vercel.app/products`,
         formData
       );
     } else if (use === "Edit") {
       const id = window.location.pathname.split("/")[2];
-      console.log("ID:", id);
-      axios.put(
+      await axios.put(
         `https://web-master-intern-workshop-2-crud-backend.vercel.app/products/${id}`,
         formData
       );
     }
     navigate("/");
-  };
+  } catch (err) {
+    console.error("Error submitting form:", err);
+    setError("Something went wrong. Please try again later.");
+  }
+}
 
   return (
     <div className="productForms">
@@ -93,12 +101,17 @@ useEffect(() => {
           onChange={handleChange}
           value={formData.img}
         />
+
         <button
           type="submit"
-          className="bg-[var(--color-primary-btn-bg)] text-[var(--color-primary-txt)] font-md text-xl px-4 py-2 rounded-md cursor-pointer filter hover:brightness-90 transition-all duration-300 ease-in-out"
+          disabled={error && use === "Edit" ? true : false}
+          className={`${
+            error && use === "Edit" ? "grayscale opacity-50" : ""
+          } bg-[var(--color-primary-btn-bg)] text-[var(--color-primary-txt)] font-md text-xl px-4 py-2 rounded-md cursor-pointer filter hover:brightness-90 transition-all duration-300 ease-in-out`}
         >
-          Submit
+          {use === "Create" ? "Create" : "Edit"} a product
         </button>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </form>
     </div>
   );
