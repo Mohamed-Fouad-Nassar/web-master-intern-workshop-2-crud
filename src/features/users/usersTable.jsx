@@ -1,8 +1,11 @@
 import { HiMiniEye } from "react-icons/hi2";
+import { useOpenModal } from "../../hooks/useModal";
 
 import Button from "../../components/Button";
 
 export default function UsersTable({ users }) {
+  const openModal = useOpenModal();
+
   return (
     <div className="my-4 overflow-x-auto text-sm">
       <table className="min-w-full">
@@ -27,7 +30,11 @@ export default function UsersTable({ users }) {
               <td>{email}</td>
               <td>
                 <div className="max-w-fit flex gap-2 overflow-hidden *:text-lg">
-                  <Button variation="ghost" size="sm">
+                  <Button
+                    onClick={() => openModal(id)}
+                    variation="ghost"
+                    size="sm"
+                  >
                     <HiMiniEye className="text-third-txt dark:text-third-txt-dark" />
                   </Button>
                 </div>
