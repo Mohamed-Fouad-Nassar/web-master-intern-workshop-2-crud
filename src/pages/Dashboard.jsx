@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import Spinner from "../components/Spinner";
 
 export default function Dashboard() {
   return (
@@ -24,7 +25,7 @@ export default function Dashboard() {
         <br />
         <li>
           <Link
-            to="dashboard"
+            to="/"
             className="text-blue-800 hover:text-blue-950 hover:underline"
           >
             Dashboard
@@ -82,6 +83,8 @@ export default function Dashboard() {
           </Link>
         </li>
       </ul>
+
+      <Spinner />
     </div>
   );
 }

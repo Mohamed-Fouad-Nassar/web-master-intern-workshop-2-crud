@@ -5,6 +5,13 @@ export function formatDate(date) {
   return `${d.getDate()} ${d.toLocaleString("en-US", { month: "short" })}`;
 }
 
+export function formatPrice(price) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "EGP",
+  }).format(price);
+}
+
 export function handleAxiosErr(err, message = "") {
   console.error(err);
   return isAxiosError(err)

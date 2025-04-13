@@ -11,11 +11,12 @@
   --color-third-bg: #f2eae1;
   --color-primary-btn-bg: #feaf00;
 
-  /* Light Mode */
-  --color-primary-txt-dark: ;
-  --color-secondary-txt-dark: ;
-  --color-third-txt-dark: ;
-  --color-primary-bg-dark: ;
-  --color-secondary-bg-dark: ;
-  --color-third-bg-dark: ;
+  /* Dark Mode */
+  --color-primary-txt-dark: #000;
+  --color-secondary-txt-dark: #c9c9c9;
+  --color-third-txt-dark: #d39000;
+  --color-primary-bg-dark: #0f0f0f;
+  --color-secondary-bg-dark: #141414;
+  --color-third-bg-dark: #2b2b2b;
+  --color-primary-btn-bg-dark: #d39000;
 }
