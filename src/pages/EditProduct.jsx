@@ -1,3 +1,9 @@
+import ProductForms from "../components/ProductForms";
+
 export default function EditProduct() {
-  return <div>EditProduct</div>;
+  return (
+    <div>
+      <ProductForms use="Edit" />
+    </div>
+  );
 }
