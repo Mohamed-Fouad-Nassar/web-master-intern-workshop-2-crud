@@ -1,3 +1,5 @@
+import ProductForms from "../components/ProductForms";
+
 export default function CreateProduct() {
-  return <div>CreateProduct</div>;
+  return <ProductForms use="Create" />;
 }
