@@ -21,6 +21,50 @@
   --color-primary-btn-bg-dark: #d39000;
 }
 
+
+.userForm h1{
+  color: var(--color-primary-txt);
+  position: relative;
+}
+.userForm h1::before{
+  background-color: var(--color-primary-btn-bg);
+  border-radius: .5rem;
+  position: absolute;
+  content: "";
+  width: 5px;
+  height: 26px;
+  left: -10px;
+  top: 5px;
+}
+.userForm button{
+  background-color: var(--color-primary-btn-bg);
+  transition: .3s ease-out ;
+  cursor: pointer;
+}
+
+.userForm button:hover{
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary-btn-bg);
+}
+
+.userForm form label{
+  color: var(--color-primary-txt);
+}
+
+.userForm form input:not(.img){
+  border: 1px solid var(--color-secondary-txt);
+  transition: .3s ease-out;
+}
+.userForm form input:focus{
+  outline-color: var(--color-primary-btn-bg);
+  caret-color: var(--color-primary-btn-bg);
+}
+
+.img{
+  cursor: pointer;
+  border: 2px dashed var(--color-primary-btn-bg);
+}
+
 /* productForms */
 .productForms h1::before {
   content: "";
@@ -32,3 +76,4 @@
   background-color: var(--color-primary-btn-bg);
   border-radius: 0.5rem;
 }
+
