@@ -1,14 +1,16 @@
+import { useLocation } from "react-router";
 import { useContext, useState } from "react";
-import AppContext from "../context/AppContext";
-import useGetData from "../hooks/useGetData";
-import { useLocation } from "react-router-dom";
-import { useCloseModal } from "../hooks/useModal";
 import { VscLoading, VscEye, VscEyeClosed } from "react-icons/vsc";
+
+import useGetData from "../hooks/useGetData";
+import { useCloseModal } from "../hooks/useModal";
+
+import AppContext from "../context/AppContext";
 
 export default function Modal() {
   const { pathname } = useLocation();
-  const { modalOpen, selectedId } = useContext(AppContext);
   const handelClose = useCloseModal();
+  const { modalOpen, selectedId } = useContext(AppContext);
 
   // get the selected user || product data
   const { data } = useGetData(selectedId);
@@ -68,7 +70,9 @@ const Porduct = ({ data }) => {
       {img && <img src={img} alt="product" className="size-40 rounded-md" />}
       {Object.entries(rest).map(([key, value]) => (
         <div key={key} className="flex my-2">
-          <span className="font-semibold mr-1 text-primary-txt dark:text-white">{key}:</span>
+          <span className="font-semibold mr-1 text-primary-txt dark:text-white">
+            {key}:
+          </span>
           <span className="text-secondary-txt">{value}</span>
         </div>
       ))}

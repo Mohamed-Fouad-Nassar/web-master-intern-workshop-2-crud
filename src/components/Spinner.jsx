@@ -3,7 +3,7 @@ export default function Spinner({ size = "size-12" }) {
     <div className={`flex justify-center items-center ${size}`}>
       <svg
         fill="var(--color-third-txt)"
-        class="animate-[spin_0.65s_linear_infinite]"
+        className="animate-[spin_0.65s_linear_infinite]"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >

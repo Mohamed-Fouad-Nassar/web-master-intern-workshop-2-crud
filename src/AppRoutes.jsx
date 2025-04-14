@@ -1,6 +1,6 @@
+import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-import { Route, Routes } from "react-router";
-import { useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router";
 
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
@@ -14,7 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import CreateUser from "./pages/CreateUser";
 import EditProduct from "./pages/EditProduct";
 import CreateProduct from "./pages/CreateProduct";
-import { useEffect } from "react";
+
 import { useCloseModal } from "./hooks/useModal";
 
 import { DarkModeProvider } from "./contexts/DarkModeContext";
@@ -29,31 +29,32 @@ export default function AppRoutes() {
   }, [pathname]);
 
   return (
-    // <DarkModeProvider>
-    <>
-      <Toaster position="top-right" />
-      <Routes>
-        {/* Main Layout */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Dashboard />} />
+    <DarkModeProvider>
+      <>
+        <Toaster position="top-right" />
+        <Routes>
+          {/* Main Layout */}
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Dashboard />} />
 
-          <Route path="products" element={<Products />} />
-          <Route path="products/create" element={<CreateProduct />} />
-          <Route path="products/:productId/edit" element={<EditProduct />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/create" element={<CreateProduct />} />
+            <Route path="products/:productId/edit" element={<EditProduct />} />
 
-          <Route path="users" element={<Users />} />
-          <Route path="users/create" element={<CreateUser />} />
-        </Route>
+            <Route path="users" element={<Users />} />
+            <Route path="users/create" element={<CreateUser />} />
+          </Route>
 
-        {/* Auth Layout */}
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Route>
+          {/* Auth Layout */}
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
 
-        {/* Error Page or Not Found Page */}
-        <Route path="*" element={<Error />} />
-      </Routes>
-    </>
+          {/* Error Page or Not Found Page */}
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </>
+    </DarkModeProvider>
   );
 }

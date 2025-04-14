@@ -8,11 +8,11 @@
   --color-third-txt: #feaf00;
   --color-primary-bg: #fff;
   --color-secondary-bg: #f8f8f8;
-  --color-third-bg: #f2eae1;
+  --color-third-bg: #ececec;
   --color-primary-btn-bg: #feaf00;
 
   /* Dark Mode */
-  --color-primary-txt-dark: #000;
+  --color-primary-txt-dark: #ffffff;
   --color-secondary-txt-dark: #c9c9c9;
   --color-third-txt-dark: #d39000;
   --color-primary-bg-dark: #0f0f0f;
@@ -22,7 +22,7 @@
 }
 
 /* productForms */
-.productForms h1::before{
+.productForms h1::before {
   content: "";
   position: absolute;
   left: -9px;
@@ -30,5 +30,5 @@
   width: 5px;
   height: 26px;
   background-color: var(--color-primary-btn-bg);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
 }
