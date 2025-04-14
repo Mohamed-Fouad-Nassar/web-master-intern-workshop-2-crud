@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { useState, useEffect } from "react";
 
 const API = "https://web-master-intern-workshop-2-crud-backend.vercel.app";
@@ -27,7 +27,7 @@ const useGetData = (id) => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, pathname]);
 
   return { data };
 };
