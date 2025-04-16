@@ -18,7 +18,10 @@ export default function ProductsTable({ products }) {
             <th>Title</th>
             <th>Price</th>
             <th>Discount</th>
-            <th className="sr-only">Options</th>
+            {/* the problem with the small screens table overflowing is the class that making the options th appers only on the screen readers only (sr-only) */}
+            {/* why is that ?idk man lets just remove the class and it works or maybe we give it d-none "hidden" on small screens its up to u */}
+            {/* <th className="sr-only">Options</th> */}
+            <th>Options</th>
           </tr>
         </thead>
         <tbody>
