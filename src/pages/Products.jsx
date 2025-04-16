@@ -1,6 +1,7 @@
 import Breadcrumb from "../components/Breadcrumb";
 import ProductsTable from "../features/products/ProductsTable";
 import ProductsHeaderSec from "../features/products/ProductsHeaderSec";
+import Pagination from "../components/Pagination";
 
 const products = [
   {
@@ -46,12 +47,17 @@ const products = [
 ];
 
 export default function Products() {
+  // isnt the products supposed to be fetched from the server and saved in a state ?
+
   return (
     <>
       <Breadcrumb cur="products" links={[{ title: "home", href: "/" }]} />
       <ProductsHeaderSec />
       <ProductsTable products={products} />
-      {/* <div>Pagination</div> */}
+      <Pagination
+        data={products}
+        // setData={setUsersData}
+      />
     </>
   );
 }
