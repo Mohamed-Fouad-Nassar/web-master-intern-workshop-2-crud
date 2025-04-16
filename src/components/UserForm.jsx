@@ -1,10 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import toast, { Toaster } from "react-hot-toast";
 import * as Yup from "yup";
 import { useState } from "react";
-
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const UserForm = () => {
   const navigate = useNavigate();
@@ -14,13 +13,16 @@ const UserForm = () => {
     firstName: Yup.string()
       .trim()
       .required("First name is required")
-      .matches(/^[a-zA-Z ]*$/, "First name can only contain letters and spaces"),
-    
+      .matches(
+        /^[a-zA-Z ]*$/,
+        "First name can only contain letters and spaces"
+      ),
+
     lastName: Yup.string()
       .trim()
       .required("Last name is required")
       .matches(/^[a-zA-Z ]*$/, "Last name can only contain letters and spaces"),
-  
+
     email: Yup.string()
       .email("Please enter a valid email address")
       .required("Email is required")
@@ -28,7 +30,7 @@ const UserForm = () => {
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         "Please enter a valid email"
       ),
-    
+
     avatar: Yup.mixed()
       .required("Avatar is required")
       .test(
@@ -39,9 +41,10 @@ const UserForm = () => {
       .test(
         "fileType",
         "Only image files are allowed (JPG, PNG, JPEG)",
-        (value) => value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        (value) =>
+          value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
       ),
-  
+
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .max(20, "Password can't be longer than 20 characters")
@@ -49,9 +52,8 @@ const UserForm = () => {
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/,
         "Password must contain at least one letter and one number"
-      )
+      ),
   });
-  
 
   const initialValues = {
     firstName: "",
@@ -74,7 +76,10 @@ const UserForm = () => {
           avatar: base64Avatar,
         };
 
-        await axios.post("https://web-master-intern-workshop-2-crud-backend.vercel.app/users", payload);
+        await axios.post(
+          "https://web-master-intern-workshop-2-crud-backend.vercel.app/users",
+          payload
+        );
         toast.success("User created successfully!");
         resetForm();
         setPreview(null);
@@ -91,14 +96,16 @@ const UserForm = () => {
 
   return (
     <div className="userForm mt-10 p-9 vh-100 shadow-md">
-      <Toaster position="top-right" />
-      <h1 className=" font-bold text-3xl mb-5 position-relative">Create New User</h1>
+      {/* <Toaster position="top-right" /> */}
+      <h1 className=" font-bold text-3xl mb-5 position-relative">
+        Create New User
+      </h1>
 
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
-        validateOnBlur={true} 
+        validateOnBlur={true}
       >
         {({ isSubmitting, setFieldValue }) => (
           <Form className="ml-3 flex gap-5 flex-col">
@@ -109,7 +116,11 @@ const UserForm = () => {
                 name="firstName"
                 className="w-full border p-2 rounded max-w-lg"
               />
-              <ErrorMessage name="firstName" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage
+                name="firstName"
+                component="div"
+                className="text-red-500 text-sm"
+              />
             </div>
 
             <div>
@@ -119,7 +130,11 @@ const UserForm = () => {
                 name="lastName"
                 className="w-full border p-2 rounded max-w-lg"
               />
-              <ErrorMessage name="lastName" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage
+                name="lastName"
+                component="div"
+                className="text-red-500 text-sm"
+              />
             </div>
 
             <div>
@@ -129,7 +144,11 @@ const UserForm = () => {
                 name="email"
                 className="w-full border p-2 rounded max-w-lg"
               />
-              <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-500 text-sm"
+              />
             </div>
 
             <div>
@@ -143,9 +162,12 @@ const UserForm = () => {
                   setPreview(URL.createObjectURL(file));
                 }}
                 className="img w-lg h-52 p-2 rounded"
-                
               />
-              <ErrorMessage name="avatar" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage
+                name="avatar"
+                component="div"
+                className="text-red-500 text-sm"
+              />
               {preview && (
                 <img
                   src={preview}
@@ -162,7 +184,11 @@ const UserForm = () => {
                 name="password"
                 className="w-full border p-2 rounded max-w-lg"
               />
-              <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-500 text-sm"
+              />
             </div>
 
             <button
