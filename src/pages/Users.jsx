@@ -1,5 +1,3 @@
-import { useOpenModal } from "../hooks/useModal";
-
 import Breadcrumb from "../components/Breadcrumb";
 import UsersTable from "../features/users/usersTable";
 import UsersHeadingSec from "../features/users/usersHeadingSec";
