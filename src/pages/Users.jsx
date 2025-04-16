@@ -1,6 +1,7 @@
 import Breadcrumb from "../components/Breadcrumb";
 import UsersTable from "../features/users/usersTable";
 import UsersHeadingSec from "../features/users/usersHeadingSec";
+import Pagination from "../components/Pagination";
 
 const users = [
   {
@@ -56,7 +57,10 @@ export default function Users() {
       <Breadcrumb cur="users" links={[{ title: "home", href: "/" }]} />
       <UsersHeadingSec />
       <UsersTable users={users} />
-      {/* <div>Pagination</div> */}
+      <Pagination
+        data={users}
+        // setData={setUsersData}
+      />
     </>
   );
 }
