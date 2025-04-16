@@ -15,7 +15,7 @@ export default function UsersTable({ users }) {
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th className="sr-only">Options</th>
+            <th>Options</th>
           </tr>
         </thead>
         <tbody className="">

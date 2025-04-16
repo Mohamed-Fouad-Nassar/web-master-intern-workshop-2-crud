@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router";
 import Breadcrumb from "../components/Breadcrumb";
 import ProductsTable from "../features/products/ProductsTable";
 import ProductsHeaderSec from "../features/products/ProductsHeaderSec";
+import Pagination from "../components/Pagination";
 
 import { getProducts } from "../services/productsAPI";
 
@@ -51,6 +52,7 @@ import { getProducts } from "../services/productsAPI";
 // ];
 
 export default function Products() {
+
   const [searchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
 
@@ -66,12 +68,16 @@ export default function Products() {
     getProductsCall();
   }, [searchParams]);
 
+
   return (
     <>
       <Breadcrumb cur="products" links={[{ title: "home", href: "/" }]} />
       <ProductsHeaderSec />
       <ProductsTable products={products} />
-      {/* <div>Pagination</div> */}
+      <Pagination
+        data={products}
+        // setData={setUsersData}
+      />
     </>
   );
 }

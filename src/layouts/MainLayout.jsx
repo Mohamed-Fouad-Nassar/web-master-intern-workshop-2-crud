@@ -1,8 +1,8 @@
 import { Outlet } from "react-router";
 
-import Modal from "../components/Modal";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import Modal from "../components/modals/Modal";
 
 export default function MainLayout() {
   return (

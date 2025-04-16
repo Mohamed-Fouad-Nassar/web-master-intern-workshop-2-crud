@@ -1,14 +1,15 @@
 import { useLocation } from "react-router";
 import { useState, useEffect } from "react";
 
-const API = "https://web-master-intern-workshop-2-crud-backend.vercel.app";
+const API = "https://api.escuelajs.co/api/v1";
 
 const useGetData = (id) => {
   const { pathname } = useLocation();
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    if (!id) {
+    // if the id is null , set data to null and return
+    if (id === null) {
       setData(null);
       return;
     }
@@ -17,7 +18,9 @@ const useGetData = (id) => {
       try {
         const response = await fetch(`${API}${pathname}/${id}`);
         if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
+          // if the response is not ok, set data to undefined and return
+          setData(undefined);
+          return;
         }
         const result = await response.json();
         setData(result);
@@ -27,7 +30,7 @@ const useGetData = (id) => {
     };
 
     fetchData();
-  }, [id, pathname]);
+  }, [id]);
 
   return { data };
 };
