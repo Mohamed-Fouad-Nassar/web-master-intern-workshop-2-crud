@@ -10,7 +10,7 @@ export default function MainLayout() {
       <Header />
       <Sidebar />
       <main className="overflow-y-auto bg-secondary-bg dark:bg-secondary-bg-dark">
-        <div className="px-4 py-2 container mx-auto">
+        <div className="px-4 py-2 container mx-auto relative">
           <Outlet />
           <div>
             <Modal />
