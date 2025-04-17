@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
 import Breadcrumb from "../components/Breadcrumb";
+import Pagination from "../components/Pagination";
 import ProductsTable from "../features/products/ProductsTable";
 import ProductsHeaderSec from "../features/products/ProductsHeaderSec";
-import Pagination from "../components/Pagination";
 
 import { getProducts } from "../services/productsAPI";
 
@@ -28,7 +28,6 @@ export default function Products() {
     }
 
     getProductsCall();
-    
   }, [searchParams]);
 
   // another thing is idk how am i gonna do the pagination with the filter

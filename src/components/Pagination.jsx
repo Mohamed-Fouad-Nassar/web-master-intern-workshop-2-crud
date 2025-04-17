@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { VscArrowRight, VscArrowLeft } from "react-icons/vsc";
 import { useLocation, useSearchParams } from "react-router";
-import { getProducts } from "../services/productsAPI";
+import { getProductsCount } from "../services/productsAPI";
 
 const itemsPerPage = 10; // Number of items per page
 
@@ -24,21 +24,19 @@ export default function Pagination() {
 
   // Fetch total items to calculate total pages
   useEffect(() => {
+    const minPrice = searchParams.get("price_min");
+    const maxPrice = searchParams.get("price_max");
+
     async function getFullData() {
       try {
-        const fullData = await getProducts();
+        const fullData = await getProductsCount({ minPrice, maxPrice });
         setTotalPages(Math.ceil(fullData.length / itemsPerPage));
       } catch (err) {
         console.error("Failed to fetch total product count:", err);
       }
     }
     getFullData();
-
-    // set the data if the offset doesnt exist (if the user is on the first page)
-    if (!searchParams.get("offset")) {
-      handlePageChange(1); // This will update the URL and trigger the useEffect in Products.jsx
-    }
-  }, [pathname]);
+  }, [pathname, searchParams]);
 
   // Handle page change and update search params
   const handlePageChange = (page) => {
@@ -61,6 +59,8 @@ export default function Pagination() {
       handlePageChange(currPage + 1);
     }
   };
+
+  if (totalPages <= 1) return null;
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center overflow-auto">
