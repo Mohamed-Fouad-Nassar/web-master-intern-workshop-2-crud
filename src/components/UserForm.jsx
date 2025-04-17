@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router";
 import axios from "axios";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import toast, { Toaster } from "react-hot-toast";
 import * as Yup from "yup";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const UserForm = () => {
   const navigate = useNavigate();
@@ -96,7 +96,7 @@ const UserForm = () => {
 
   return (
     <div className="userForm mt-10 p-9 vh-100 shadow-md">
-      <Toaster position="top-right" />
+      {/* <Toaster position="top-right" /> */}
       <h1 className=" font-bold text-3xl mb-5 position-relative">
         Create New User
       </h1>

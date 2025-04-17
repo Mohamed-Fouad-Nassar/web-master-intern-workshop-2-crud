@@ -11,10 +11,7 @@ export default function Sort() {
   const ref = useClickOutSide(closeDropdown);
 
   return (
-    <div
-      ref={ref}
-      //  className="relative"
-    >
+    <div ref={ref} className="md:relative">
       <button
         onClick={toggleDropdown}
         className="rounded cursor-pointer uppercase tracking-wider px-2 py-1.5 text-xs flex hover:bg-primary-btn-bg/10 dark:hover:bg-primary-btn-bg-dark/10 text-primary-btn-bg dark:text-primary-btn-bg-dark"
