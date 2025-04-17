@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import CreateUser from "./pages/CreateUser";
 import EditProduct from "./pages/EditProduct";
 import CreateProduct from "./pages/CreateProduct";
+import SearchResults from "./pages/SearchResults";
 
 import { useCloseModal } from "./hooks/useModal";
 
@@ -35,6 +36,7 @@ export default function AppRoutes() {
         {/* Main Layout */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/search" element={<SearchResults />} />
 
           <Route path="products" element={<Products />} />
           <Route path="products/create" element={<CreateProduct />} />

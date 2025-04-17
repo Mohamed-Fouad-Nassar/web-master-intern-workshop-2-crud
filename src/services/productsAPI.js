@@ -24,6 +24,7 @@ export async function getProducts(filter, sort, page) {
 }
 
 export async function getProductsCount(filter, sort) {
+
   let api = BASE_API;
 
   if (filter?.minPrice && filter?.maxPrice)
