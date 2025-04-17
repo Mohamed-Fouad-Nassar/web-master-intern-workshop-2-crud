@@ -1,74 +1,94 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { VscArrowRight, VscArrowLeft } from "react-icons/vsc";
+import { useLocation, useSearchParams } from "react-router";
+import { getProductsCount } from "../services/productsAPI";
 
-const API = "https://api.escuelajs.co/api/v1";
+const itemsPerPage = 10; // Number of items per page
 
-export default function Pagination({ data }) {
+export default function Pagination() {
   const { pathname } = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const itemsPerPage = 10;
   const [currPage, setCurrPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const offset = (currPage - 1) * itemsPerPage;
-  const totalPages = Math.ceil(100 / itemsPerPage); //change the static number to data.length
-
-  // fetch the date from the server and save it in a state
+  // update `currPage` based on `offset` and `limit` from the URL
   useEffect(() => {
-    const fetchData = async () => {
+    setCurrPage(
+      Math.floor(
+        (searchParams.get("offset") || 0) /
+          (searchParams.get("limit") || itemsPerPage)
+      ) + 1
+    );
+  }, [searchParams]);
+
+  // Fetch total items to calculate total pages
+  useEffect(() => {
+    const minPrice = searchParams.get("price_min");
+    const maxPrice = searchParams.get("price_max");
+
+    async function getFullData() {
       try {
-        const res = await fetch(
-          `${API}${pathname}?offset=${offset}&limit=${itemsPerPage}`
-        );
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await res.json();
-        // set the data state with the result
-        console.log(result);
+        const fullData = await getProductsCount({ minPrice, maxPrice });
+        setTotalPages(Math.ceil(fullData.length / itemsPerPage));
       } catch (err) {
-        console.log(err.message);
+        console.error("Failed to fetch total product count:", err);
       }
-    };
+    }
+    getFullData();
+  }, [pathname, searchParams]);
 
-    fetchData();
-  }, [currPage]);
+  // Handle page change and update search params
+  const handlePageChange = (page) => {
+    setCurrPage(page);
 
-  // handle next and prev page in pagination btns
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("offset", (page - 1) * itemsPerPage);
+    newParams.set("limit", itemsPerPage);
+    setSearchParams(newParams);
+  };
+
   const handlePrev = () => {
     if (currPage > 1) {
-      setCurrPage(currPage - 1);
+      handlePageChange(currPage - 1);
     }
   };
 
   const handleNext = () => {
     if (currPage < totalPages) {
-      setCurrPage(currPage + 1);
+      handlePageChange(currPage + 1);
     }
   };
 
+  if (totalPages <= 1) return null;
+
   return (
     <div className="flex flex-col gap-4 items-center justify-center overflow-auto">
-      <div className="flex justify-center gap-4">
+      <div className="flex justify-center gap-4 mt-4">
         <button
           className="text-black text-xl dark:text-white cursor-pointer"
           onClick={handlePrev}
         >
           <VscArrowLeft />
         </button>
-        {Array.from({ length: totalPages }).map((_, i) => (
-          <button
-            className={`p-2 rounded-lg cursor-pointer transition-all hover:bg-gray-400 ${
-              currPage === i + 1
-                ? "bg-gray-600 text-white hover:bg-gray-600"
-                : "bg-gray-300"
-            }`}
-            key={i + 1}
-            onClick={() => setCurrPage(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
+        <div className="max-lg:hidden flex items-center gap-4">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              className={`cursor-pointer p-2 rounded-lg transition-all hover:bg-gray-400 ${
+                currPage === i + 1
+                  ? "bg-gray-600 text-white"
+                  : "bg-gray-300 text-black"
+              }`}
+              onClick={() => handlePageChange(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+        <div className="lg:hidden text-black dark:text-white">
+          <button>{currPage}</button>
+        </div>
         <button
           className="text-black text-xl dark:text-white cursor-pointer"
           onClick={handleNext}
@@ -77,7 +97,7 @@ export default function Pagination({ data }) {
         </button>
       </div>
 
-      <p className="text-black dark:text-white">
+      <p className="text-black dark:text-white mt-2">
         Page {currPage} of {totalPages}
       </p>
     </div>
