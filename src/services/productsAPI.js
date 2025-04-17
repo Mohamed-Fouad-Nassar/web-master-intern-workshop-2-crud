@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_API = "https://api.escuelajs.co/api/v1/products";
 
-export async function getProducts(filter, sort, page) {
+export async function getProducts(filter, sort, page, title) {
   let api = BASE_API;
 
   if (filter?.minPrice && filter?.maxPrice)

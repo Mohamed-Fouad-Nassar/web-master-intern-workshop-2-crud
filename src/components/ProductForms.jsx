@@ -1,64 +1,64 @@
-import { useEffect, useState } from "react";
-import FormInput from "./FormInput";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
+import FormInput from "./FormInput";
 
-
-const ProductForms = ({use}) => {
-const [formData, setFormData] = useState({
-  title: "",
-  description: "",
-  price: "",
-  discount: "",
-  img: "",
-});
-const handleChange = (name, value) => {
-  setFormData((prev) => ({
-    ...prev,
-    [name]: value,
-  }));
-};
-const navigate = useNavigate();
-const [error, setError] = useState(null);
-// Fetching data for edit form
-useEffect(() => {
-  if (use === "Edit") {
-    const id = window.location.pathname.split("/")[2];
-    axios
-      .get(
-        `https://web-master-intern-workshop-2-crud-backend.vercel.app/products/${id}`
-      )
-      .then((res) => {
-        setFormData(res.data);
-      }).catch((err) => {
-        console.error("Error fetching product data:", err);
-        setError("Failed to fetch product data. Please try again later.");
-      });
-    }
-}, [use]);
-// for handeling the submit button
-async function handleSubmit(e) {
-  e.preventDefault();
-  try {
-    if (use === "Create") {
-      await axios.post(
-        `https://web-master-intern-workshop-2-crud-backend.vercel.app/products`,
-        formData
-      );
-    } else if (use === "Edit") {
+const ProductForms = ({ use }) => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    price: "",
+    discount: "",
+    img: "",
+  });
+  const handleChange = (name, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  // Fetching data for edit form
+  useEffect(() => {
+    if (use === "Edit") {
       const id = window.location.pathname.split("/")[2];
-      await axios.put(
-        `https://web-master-intern-workshop-2-crud-backend.vercel.app/products/${id}`,
-        formData
-      );
+      axios
+        .get(
+          `https://web-master-intern-workshop-2-crud-backend.vercel.app/products/${id}`
+        )
+        .then((res) => {
+          setFormData(res.data);
+        })
+        .catch((err) => {
+          console.error("Error fetching product data:", err);
+          setError("Failed to fetch product data. Please try again later.");
+        });
     }
-    navigate("/");
-  } catch (err) {
-    console.error("Error submitting form:", err);
-    setError("Something went wrong. Please try again later.");
+  }, [use]);
+  // for handeling the submit button
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      if (use === "Create") {
+        await axios.post(
+          `https://web-master-intern-workshop-2-crud-backend.vercel.app/products`,
+          formData
+        );
+      } else if (use === "Edit") {
+        const id = window.location.pathname.split("/")[2];
+        await axios.put(
+          `https://web-master-intern-workshop-2-crud-backend.vercel.app/products/${id}`,
+          formData
+        );
+      }
+      navigate("/");
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      setError("Something went wrong. Please try again later.");
+    }
   }
-}
 
   return (
     <div className="productForms">
