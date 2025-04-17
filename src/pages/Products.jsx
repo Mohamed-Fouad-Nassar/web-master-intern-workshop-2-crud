@@ -52,32 +52,47 @@ import { getProducts } from "../services/productsAPI";
 // ];
 
 export default function Products() {
-
   const [searchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    const minPrice = searchParams.get("price_min");
-    const maxPrice = searchParams.get("price_max");
+  // extract minPrice and maxPrice from searchParams
+  const minPrice = searchParams.get("price_min");
+  const maxPrice = searchParams.get("price_max");
 
+  useEffect(() => {
     async function getProductsCall() {
       const apiProducts = await getProducts({ minPrice, maxPrice });
       setProducts(apiProducts);
     }
 
     getProductsCall();
-  }, [searchParams]);
+  }, [minPrice, maxPrice]); // Only depend on minPrice and maxPrice
 
+  // READ THIS COMMENT :::::::::::::::::::::::::::::::::)
+  // this is your old useefect, idont really know what to do man lol
 
+  // useEffect(() => {
+  //   const minPrice = searchParams.get("price_min");
+  //   const maxPrice = searchParams.get("price_max");
+
+  //   async function getProductsCall() {
+  //     const apiProducts = await getProducts({ minPrice, maxPrice });
+  //     setProducts(apiProducts);
+  //   }
+
+  //   getProductsCall();
+  // }, [searchParams]);
+
+  // the proplem now is on the first render the product get set the the full data, then my function runs for the pagination and sets the data lets say (from index 0 to 10) and then the useEffect runs and sets the data to the full data again
+
+  // another think is idk how am i gonna do the pagination with the filter
+  // end me
   return (
     <>
       <Breadcrumb cur="products" links={[{ title: "home", href: "/" }]} />
       <ProductsHeaderSec />
       <ProductsTable products={products} />
-      <Pagination
-        data={products}
-        // setData={setUsersData}
-      />
+      <Pagination setData={setProducts} />
     </>
   );
 }
