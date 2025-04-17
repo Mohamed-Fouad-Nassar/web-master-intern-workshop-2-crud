@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
 import { VscArrowRight, VscArrowLeft } from "react-icons/vsc";
+import { useLocation, useSearchParams } from "react-router";
 import { getProducts } from "../services/productsAPI";
 
-const API = "https://api.escuelajs.co/api/v1";
-const itemsPerPage = 10;
+const itemsPerPage = 10; // Number of items per page
 
-export default function Pagination({ setData }) {
+export default function Pagination() {
   const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const offsetFromURL = Number(searchParams.get("offset")) || 0;
-  const limitFromURL = Number(searchParams.get("limit")) || itemsPerPage;
-
+  const [currPage, setCurrPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  // sync URL param to current page
-  const [currPage, setCurrPage] = useState(
-    Math.floor(offsetFromURL / itemsPerPage) + 1
-  );
 
-  const offsetParam = (currPage - 1) * itemsPerPage;
+  // update `currPage` based on `offset` and `limit` from the URL
+  useEffect(() => {
+    setCurrPage(
+      Math.floor(
+        (searchParams.get("offset") || 0) /
+          (searchParams.get("limit") || itemsPerPage)
+      ) + 1
+    );
+  }, [searchParams]);
 
-  // get total items to calculate total pages
+  // Fetch total items to calculate total pages
   useEffect(() => {
     async function getFullData() {
       try {
@@ -31,40 +32,34 @@ export default function Pagination({ setData }) {
         console.error("Failed to fetch total product count:", err);
       }
     }
-
     getFullData();
+
+    // set the data if the offset doesnt exist (if the user is on the first page)
+    if (!searchParams.get("offset")) {
+      handlePageChange(1); // This will update the URL and trigger the useEffect in Products.jsx
+    }
   }, [pathname]);
 
-  // fetch data when page changes
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          `${API}${pathname}?offset=${offsetParam}&limit=${limitFromURL}`
-        );
-        const result = await res.json();
-        setData(result);
-      } catch (err) {
-        console.error("Pagination fetch error:", err.message);
-      }
-    };
+  // Handle page change and update search params
+  const handlePageChange = (page) => {
+    setCurrPage(page);
 
-    fetchData();
-
-    // update URL params
     const newParams = new URLSearchParams(searchParams);
-    newParams.set("offset", offsetParam);
-    newParams.set("limit", limitFromURL);
+    newParams.set("offset", (page - 1) * itemsPerPage);
+    newParams.set("limit", itemsPerPage);
     setSearchParams(newParams);
-  }, [currPage, pathname]);
+  };
 
-  // handle prev and next buttons
   const handlePrev = () => {
-    if (currPage > 1) setCurrPage(currPage - 1);
+    if (currPage > 1) {
+      handlePageChange(currPage - 1);
+    }
   };
 
   const handleNext = () => {
-    if (currPage < totalPages) setCurrPage(currPage + 1);
+    if (currPage < totalPages) {
+      handlePageChange(currPage + 1);
+    }
   };
 
   return (
@@ -76,7 +71,6 @@ export default function Pagination({ setData }) {
         >
           <VscArrowLeft />
         </button>
-
         <div className="max-lg:hidden flex items-center gap-4">
           {Array.from({ length: totalPages }).map((_, i) => (
             <button
@@ -86,17 +80,15 @@ export default function Pagination({ setData }) {
                   ? "bg-gray-600 text-white"
                   : "bg-gray-300 text-black"
               }`}
-              onClick={() => setCurrPage(i + 1)}
+              onClick={() => handlePageChange(i + 1)}
             >
               {i + 1}
             </button>
           ))}
         </div>
-
         <div className="lg:hidden text-black dark:text-white">
           <button>{currPage}</button>
         </div>
-
         <button
           className="text-black text-xl dark:text-white cursor-pointer"
           onClick={handleNext}

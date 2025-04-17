@@ -8,6 +8,10 @@ export async function getProducts(filter, sort, page) {
   if (filter?.minPrice && filter?.maxPrice)
     api += `?price_min=${filter.minPrice}&price_max=${filter.maxPrice}`;
 
+  // pagination condition
+  if (page?.offset && page?.limit)
+    api += `?offset=${page.offset}&limit=${page.limit}`;
+
   const res = await axios.get(api);
 
   return res.data;
