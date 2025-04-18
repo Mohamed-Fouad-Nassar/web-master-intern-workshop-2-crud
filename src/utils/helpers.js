@@ -1,5 +1,7 @@
 import { isAxiosError } from "axios";
 
+export const itemsPerPage=10
+
 export function formatDate(date) {
   const d = new Date(date);
   return `${d.getDate()} ${d.toLocaleString("en-US", { month: "short" })}`;

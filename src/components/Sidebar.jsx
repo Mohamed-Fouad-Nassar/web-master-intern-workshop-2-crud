@@ -46,9 +46,9 @@ export default function Sidebar() {
       //   changeStyle ? "changestyle" : ""
       // } row-span-full p-4 bg-gray-100 md:w-3xs !py-2 relative transition-[!100s]`}
 
-      className="w-28 md:w-3xs row-span-full px-4 py-6 bg-primary-bg dark:bg-primary-bg-dark text-primary-txt dark:text-primary-txt-dark"
+      className="w-28 md:w-3xs row-span-full px-4 bg-primary-bg dark:bg-primary-bg-dark text-primary-txt dark:text-primary-txt-dark relative"
     >
-      <div className="container w-full h-full flex flex-col justify-between items-center">
+      <div className="container w-full h-dvh py-6 sticky top-0 flex flex-col justify-between items-center">
         <h1 className="font-bold text-xs pl-2 md:text-xl w-[90%] uppercase flex justify-center items-center border-l-4 border-third-txt dark:border-third-txt-dark">
           crud operation
         </h1>

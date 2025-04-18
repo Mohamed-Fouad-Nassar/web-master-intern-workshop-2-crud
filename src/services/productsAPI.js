@@ -1,19 +1,12 @@
 import axios from "axios";
+import { itemsPerPage } from "../utils/helpers";
 
 const BASE_API = "https://api.escuelajs.co/api/v1/products";
 
 export async function getProducts(filter, sort, page) {
-  // page = 1
-  // limit = 10
-  // offset = 0 [page - 1] * limit
-  // offset = 10 [2 - 1] * 10
-  // offset = 20 [3 - 1] * 10
-
-  let api = `${BASE_API}?offset=${page?.offset || 0}&limit=${
-    page?.limit || 10
-  }`;
-
-  // let api = BASE_API;
+  let api = `${BASE_API}?offset=${
+    calcOffset(page, itemsPerPage) || 0
+  }&limit=${itemsPerPage}`;
 
   if (filter?.minPrice && filter?.maxPrice)
     api += `&price_min=${filter.minPrice}&price_max=${filter.maxPrice}`;
@@ -24,7 +17,6 @@ export async function getProducts(filter, sort, page) {
 }
 
 export async function getProductsCount(filter, sort) {
-
   let api = BASE_API;
 
   if (filter?.minPrice && filter?.maxPrice)
@@ -33,4 +25,13 @@ export async function getProductsCount(filter, sort) {
   const res = await axios.get(api);
 
   return res.data;
+}
+
+// calc the offset based on the current page and items per page
+function calcOffset(page, itemsPerPage) {
+  if (page?.offset === 0) {
+    return 0;
+  } else {
+    return (page?.offset - 1) * itemsPerPage;
+  }
 }

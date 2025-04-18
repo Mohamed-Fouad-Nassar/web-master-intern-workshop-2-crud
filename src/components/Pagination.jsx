@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { VscArrowRight, VscArrowLeft } from "react-icons/vsc";
-import { useLocation, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import { getProductsCount } from "../services/productsAPI";
-
-const itemsPerPage = 10; // Number of items per page
+import { itemsPerPage } from "../utils/helpers";
 
 export default function Pagination() {
-  const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [currPage, setCurrPage] = useState(1);
@@ -14,12 +12,7 @@ export default function Pagination() {
 
   // update `currPage` based on `offset` and `limit` from the URL
   useEffect(() => {
-    setCurrPage(
-      Math.floor(
-        (searchParams.get("offset") || 0) /
-          (searchParams.get("limit") || itemsPerPage)
-      ) + 1
-    );
+    setCurrPage(Math.floor(searchParams.get("page") || currPage));
   }, [searchParams]);
 
   // Fetch total items to calculate total pages
@@ -36,18 +29,17 @@ export default function Pagination() {
       }
     }
     getFullData();
-  }, [pathname, searchParams]);
+  }, [searchParams]);
 
   // Handle page change and update search params
   const handlePageChange = (page) => {
     setCurrPage(page);
-
     const newParams = new URLSearchParams(searchParams);
-    newParams.set("offset", (page - 1) * itemsPerPage);
-    newParams.set("limit", itemsPerPage);
+    newParams.set("page", page);
     setSearchParams(newParams);
   };
 
+  // handle previous and next page actions
   const handlePrev = () => {
     if (currPage > 1) {
       handlePageChange(currPage - 1);
