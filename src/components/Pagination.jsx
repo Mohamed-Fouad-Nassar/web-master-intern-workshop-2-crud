@@ -1,34 +1,43 @@
 import { useEffect, useState } from "react";
-import { VscArrowRight, VscArrowLeft } from "react-icons/vsc";
 import { useSearchParams } from "react-router";
+import { HiArrowRight, HiArrowLeft } from "react-icons/hi2";
+
+import Button from "./Button";
+
 import { getProductsCount } from "../services/productsAPI";
-import { itemsPerPage } from "../utils/helpers";
+
+import { ITEMS_PER_PAGE } from "../utils/helpers";
 
 export default function Pagination() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [currPage, setCurrPage] = useState(1);
+  const [currPage, setCurrPage] = useState(
+    Math.floor(searchParams.get("page")) || 1
+  );
   const [totalPages, setTotalPages] = useState(1);
-
-  // update `currPage` based on `offset` and `limit` from the URL
-  useEffect(() => {
-    setCurrPage(Math.floor(searchParams.get("page") || currPage));
-  }, [searchParams]);
 
   // Fetch total items to calculate total pages
   useEffect(() => {
     const minPrice = searchParams.get("price_min");
     const maxPrice = searchParams.get("price_max");
+    const query = searchParams.get("query");
 
-    async function getFullData() {
+    // set current page to 1 if not set in url params
+    setCurrPage(Math.floor(searchParams.get("page")) || 1);
+
+    async function getFullProductsCount() {
       try {
-        const fullData = await getProductsCount({ minPrice, maxPrice });
-        setTotalPages(Math.ceil(fullData.length / itemsPerPage));
+        const fullProductsCount = await getProductsCount(
+          { minPrice, maxPrice },
+          null,
+          query
+        );
+        setTotalPages(Math.ceil(fullProductsCount / ITEMS_PER_PAGE));
       } catch (err) {
         console.error("Failed to fetch total product count:", err);
       }
     }
-    getFullData();
+    getFullProductsCount();
   }, [searchParams]);
 
   // Handle page change and update search params
@@ -57,38 +66,30 @@ export default function Pagination() {
   return (
     <div className="flex flex-col gap-4 items-center justify-center overflow-auto">
       <div className="flex justify-center gap-4 mt-4">
-        <button
-          className="text-black text-xl dark:text-white cursor-pointer"
-          onClick={handlePrev}
-        >
-          <VscArrowLeft />
-        </button>
-        <div className="max-lg:hidden flex items-center gap-4">
+        <Button onClick={handlePrev} className="!p-3 !text-base">
+          <HiArrowLeft />
+        </Button>
+
+        <div className="max-lg:hidden flex items-center gap-2">
           {Array.from({ length: totalPages }).map((_, i) => (
-            <button
+            <Button
               key={i}
-              className={`cursor-pointer p-2 rounded-lg transition-all hover:bg-gray-400 ${
-                currPage === i + 1
-                  ? "bg-gray-600 text-white"
-                  : "bg-gray-300 text-black"
-              }`}
+              className="!p-3 !text-base"
               onClick={() => handlePageChange(i + 1)}
+              variation={currPage === i + 1 ? "primary" : "secondary"}
             >
               {i + 1}
-            </button>
+            </Button>
           ))}
         </div>
         <div className="lg:hidden text-black dark:text-white">
-          <button>{currPage}</button>
+          <p className="py-3 px-2">{currPage}</p>
         </div>
-        <button
-          className="text-black text-xl dark:text-white cursor-pointer"
-          onClick={handleNext}
-        >
-          <VscArrowRight />
-        </button>
-      </div>
 
+        <Button onClick={handleNext} className="!p-3 !text-base">
+          <HiArrowRight />
+        </Button>
+      </div>
       <p className="text-black dark:text-white mt-2">
         Page {currPage} of {totalPages}
       </p>

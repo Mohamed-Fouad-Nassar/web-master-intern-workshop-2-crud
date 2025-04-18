@@ -1,37 +1,29 @@
 import axios from "axios";
-import { itemsPerPage } from "../utils/helpers";
 
-const BASE_API = "https://api.escuelajs.co/api/v1/products";
+import { ITEMS_PER_PAGE, BASE_API_URL } from "../utils/helpers";
 
-export async function getProducts(filter, sort, page) {
-  let api = `${BASE_API}?offset=${
-    calcOffset(page, itemsPerPage) || 0
-  }&limit=${itemsPerPage}`;
+export async function getProducts(filter, sort, page, query) {
+  const offset = (page - 1) * ITEMS_PER_PAGE || 0;
+  let api = `${BASE_API_URL}?offset=${offset}&limit=${ITEMS_PER_PAGE}`;
 
+  if (query) api += `&title=${query}`;
   if (filter?.minPrice && filter?.maxPrice)
     api += `&price_min=${filter.minPrice}&price_max=${filter.maxPrice}`;
 
   const res = await axios.get(api);
-
   return res.data;
 }
 
-export async function getProductsCount(filter, sort) {
-  let api = BASE_API;
+export async function getProductsCount(filter, sort, query) {
+  const params = new URLSearchParams();
 
-  if (filter?.minPrice && filter?.maxPrice)
-    api += `?price_min=${filter.minPrice}&price_max=${filter.maxPrice}`;
+  if (filter?.minPrice) params.set("price_min", filter.minPrice);
+  if (filter?.maxPrice) params.set("price_max", filter.maxPrice);
+  if (query) params.set("title", query);
 
+  // if (sort) params.set("sort", sort);
+
+  const api = `${BASE_API_URL}?${params.toString()}`;
   const res = await axios.get(api);
-
-  return res.data;
-}
-
-// calc the offset based on the current page and items per page
-function calcOffset(page, itemsPerPage) {
-  if (page?.offset === 0) {
-    return 0;
-  } else {
-    return (page?.offset - 1) * itemsPerPage;
-  }
+  return res?.data?.length || 0;
 }

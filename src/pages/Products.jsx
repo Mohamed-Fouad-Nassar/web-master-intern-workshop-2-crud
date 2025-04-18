@@ -7,7 +7,6 @@ import ProductsTable from "../features/products/ProductsTable";
 import ProductsHeaderSec from "../features/products/ProductsHeaderSec";
 
 import { getProducts } from "../services/productsAPI";
-import { itemsPerPage } from "../utils/helpers";
 
 export default function Products() {
   const [searchParams] = useSearchParams();
@@ -16,13 +15,15 @@ export default function Products() {
   useEffect(() => {
     const minPrice = searchParams.get("price_min");
     const maxPrice = searchParams.get("price_max");
-    const offset = searchParams.get("page") || 1;
+    const page = searchParams.get("page") || 1;
+    const query = searchParams.get("query");
 
     async function getProductsCall() {
       const apiProducts = await getProducts(
         { minPrice, maxPrice },
         null, //not sorting for now
-        { offset, limit: itemsPerPage }
+        page,
+        query
       );
       setProducts(apiProducts);
     }

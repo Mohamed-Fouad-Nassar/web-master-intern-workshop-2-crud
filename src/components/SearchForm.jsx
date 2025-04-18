@@ -1,39 +1,62 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function SearchForm() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("query") || "");
-  const navigate = useNavigate();
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
 
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearch(value);
-    setSearchParams({ query: value });
 
-    if (value.trim() !== "") {
-      navigate(`/search?query=${encodeURIComponent(value.trim())}`);
-    }
+    if (pathname !== "/products") navigate(`/products?query=${value}`);
   };
+
+  // Debounce effect: delay updating the URL
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  // Update searchParams only when debounced value changes
+  useEffect(() => {
+    const newParams = new URLSearchParams(searchParams);
+    if (debouncedSearch.trim() !== "") {
+      newParams.delete("page");
+      newParams.set("query", debouncedSearch);
+    } else newParams.delete("query");
+
+    setSearchParams(newParams);
+  }, [debouncedSearch]);
+  // }, [debouncedSearch, searchParams, setSearchParams]);
+
+  // Reset search when leaving the products page
+  useEffect(() => {
+    if (pathname !== "/products") {
+      setSearch("");
+      setDebouncedSearch("");
+    }
+  }, [pathname]);
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (search.trim() !== "") {
-          navigate(`/search?query=${encodeURIComponent(search.trim())}`);
-        }
-      }}
+      onSubmit={(e) => e.preventDefault()}
       className="flex flex-row items-center"
     >
       <div className="relative">
         <input
           type="search"
-          placeholder="Search..."
-          className="pl-4 pr-10 py-1.5 border border-gray-300 dark:border-gray-300/20 rounded-md"
-          onChange={handleSearch}
           value={search}
+          onChange={handleSearch}
+          placeholder="Search In Products..."
+          className="pl-4 pr-10 py-1.5 border border-gray-300 dark:border-gray-300/20 rounded-md"
         />
         <HiMagnifyingGlass className="text-lg absolute top-1/2 right-3.5 transform -translate-y-1/2 text-secondary-txt dark:text-secondary-txt-dark" />
       </div>

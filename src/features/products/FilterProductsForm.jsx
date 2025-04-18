@@ -3,10 +3,8 @@ import { useSearchParams } from "react-router";
 
 import Button from "../../components/Button";
 
-export default function SortProductsForm({ closeDropdown }) {
+export default function FilterProductsForm({ closeDropdown }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  // const minPrice = searchParams.get("price_min") || 0;
-  // const maxPrice = searchParams.get("price_max") || 0;
 
   const [minPrice, setMinPrice] = useState(searchParams.get("price_min") || 0);
   const [maxPrice, setMaxPrice] = useState(searchParams.get("price_max") || 0);
@@ -15,12 +13,17 @@ export default function SortProductsForm({ closeDropdown }) {
     e.preventDefault();
     if (minPrice == 0 || maxPrice == 0) return;
 
-    // console.log("Min Price: ", minPrice);
-    // console.log("Max Price: ", maxPrice);
-
     searchParams.set("price_min", minPrice);
     searchParams.set("price_max", maxPrice);
-    searchParams.delete("page"); // to remove the pagination page value
+    searchParams.delete("page");
+    setSearchParams(searchParams);
+
+    closeDropdown();
+  }
+
+  function handleResetFilter() {
+    searchParams.delete("price_min");
+    searchParams.delete("price_max");
     setSearchParams(searchParams);
 
     closeDropdown();
@@ -28,7 +31,17 @@ export default function SortProductsForm({ closeDropdown }) {
 
   return (
     <form className="w-full" onSubmit={handleSubmit}>
-      <h3>Prices</h3>
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="font-medium text-sm">Prices</h3>
+        <Button
+          size="sm"
+          type="button"
+          variation="secondary"
+          onClick={handleResetFilter}
+        >
+          Reset
+        </Button>
+      </div>
       <div className="flex flex-col gap-2">
         <div className="flex gap-2 items-center">
           <label htmlFor="minPrice" className="min-w-12 text-sm">
@@ -61,13 +74,15 @@ export default function SortProductsForm({ closeDropdown }) {
       </div>
 
       <div className="mt-4 flex justify-end gap-2">
-        <button
+        <Button
+          size="sm"
           type="reset"
+          variation="danger"
           onClick={closeDropdown}
-          className="bg-red-500 hover:bg-red-600 text-sm text-white px-3 py-1 rounded cursor-pointer"
+          className="!capitalize !text-sm"
         >
           Cancel
-        </button>
+        </Button>
         <Button
           size="sm"
           type="submit"

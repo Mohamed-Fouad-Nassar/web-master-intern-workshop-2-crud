@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HiMiniFunnel } from "react-icons/hi2";
 
-import SortProductsForm from "../features/products/SortProductsForm";
+import FilterProductsForm from "../features/products/FilterProductsForm";
 
 import useClickOutSide from "../hooks/useClickOutside";
 
@@ -27,7 +27,7 @@ export default function Sort() {
           <h3 className="mb-2 font-medium">Filter Options</h3>
 
           {/* {children} */}
-          <SortProductsForm closeDropdown={closeDropdown} />
+          <FilterProductsForm closeDropdown={closeDropdown} />
         </div>
       )}
     </div>
