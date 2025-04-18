@@ -1,6 +1,7 @@
 import { isAxiosError } from "axios";
 
-export const itemsPerPage=10
+export const ITEMS_PER_PAGE = 10;
+export const BASE_API_URL = "https://api.escuelajs.co/api/v1/products";
 
 export function formatDate(date) {
   const d = new Date(date);

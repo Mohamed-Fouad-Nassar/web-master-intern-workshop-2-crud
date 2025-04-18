@@ -6,7 +6,7 @@
 @theme {
   /* Light Mode */
   --color-primary-txt: #000;
-  --color-secondary-txt: #acacac;
+  --color-secondary-txt: #868686;
   --color-third-txt: #feaf00;
   --color-primary-bg: #fff;
   --color-secondary-bg: #f8f8f8;
@@ -79,6 +79,6 @@
 }
 
 /* product& user modal */
-.modal-details {
+/* .modal-details {
   @apply capitalize space-y-3 [&_span]:mr-2 [&_span]:font-semibold [&_span]:text-black dark:[&_span]:text-white [&_p]:text-secondary-txt;
-}
+} */
