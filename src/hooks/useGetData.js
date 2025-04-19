@@ -23,6 +23,7 @@ const useGetData = (id) => {
           return;
         }
         const result = await response.json();
+        console.log(result);
         setData(result);
       } catch (err) {
         console.log(err.message);
