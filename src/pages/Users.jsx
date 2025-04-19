@@ -2,8 +2,8 @@ import Breadcrumb from "../components/Breadcrumb";
 import UsersTable from "../features/users/usersTable";
 import UsersHeadingSec from "../features/users/usersHeadingSec";
 import { useEffect, useState } from "react";
-import { getusers } from "../services/productsAPI";
 import LoadMoreBtn from "../features/users/LoadMoreBtn";
+import { getusers } from "../services/usersAPI";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -11,10 +11,10 @@ export default function Users() {
   // display users on first render
   useEffect(() => {
     async function getUsersData() {
-      const apiUsers = await getusers();
-      setUsers(apiUsers);
+      // first render 
+      const usersData = await getusers();
+      setUsers(usersData);
     }
-
     getUsersData();
   }, []);
 
