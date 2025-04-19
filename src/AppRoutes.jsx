@@ -38,7 +38,7 @@ export default function AppRoutes() {
   // Close modal if the user navigates to a different page
   useEffect(() => {
     closeModal();
-  }, [pathname, closeModal]);
+  }, [pathname]);
 
   return (
     <DarkModeProvider>

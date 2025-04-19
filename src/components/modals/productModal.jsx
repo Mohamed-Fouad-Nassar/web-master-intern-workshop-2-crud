@@ -15,7 +15,7 @@ export default function ProductModal({ data }) {
         <DetailsList.Row title="Description" value={description} />
       </DetailsList>
       <div className="flex justify-center flex-wrap gap-2">
-        {images.length !== 0 &&
+        {images?.length !== 0 &&
           images.map((src, i) => (
             <div
               key={i}
