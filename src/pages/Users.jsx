@@ -6,7 +6,7 @@ import { getusers } from "../services/productsAPI";
 import LoadMoreBtn from "../features/users/LoadMoreBtn";
 
 export default function Users() {
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState([]);
 
   // display users on first render
   useEffect(() => {
