@@ -1,5 +1,7 @@
 import { HiMiniEye, HiMiniPencil, HiMiniTrash } from "react-icons/hi2";
 
+import Spinner from "../../components/Spinner";
+
 import Button from "../../components/Button";
 
 import { useOpenModal } from "../../hooks/useModal";
@@ -22,11 +24,17 @@ export default function ProductsTable({ products }) {
           </tr>
         </thead>
         <tbody>
-          {products.length <= 0 ? (
+          {!products ? (
+            <tr>
+              <td colSpan={100} className="h-[80vh] [&_div]:mx-auto">
+                <Spinner />
+              </td>
+            </tr>
+          ) : products.length <= 0 ? (
             <tr>
               <td
                 colSpan={100}
-                className="py-60 mx-auto w-full *:mx-auto text-center font-medium text-xl text-gray-900 dark:text-white"
+                className="h-[80vh] mx-auto w-full *:mx-auto text-center font-medium text-xl text-gray-900 dark:text-white"
               >
                 No Products Here :(
               </td>

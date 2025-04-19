@@ -53,7 +53,7 @@ export default function Sidebar() {
           crud operation
         </h1>
 
-        <div className="py-10 w-full flex flex-col gap-4 items-center">
+        <div className="sm:py-10 w-full flex flex-col gap-4 items-center">
           <img
             src={profile}
             alt="profile-image"

@@ -10,7 +10,7 @@ import { getProducts } from "../services/productsAPI";
 
 export default function Products() {
   const [searchParams] = useSearchParams();
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
 
   useEffect(() => {
     const minPrice = searchParams.get("price_min");
