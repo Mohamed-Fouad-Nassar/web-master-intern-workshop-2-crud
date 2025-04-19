@@ -1,13 +1,15 @@
-import { useLocation } from "react-router";
 import { useContext } from "react";
-import { VscLoading, VscChromeClose } from "react-icons/vsc";
+import { useLocation } from "react-router";
+import { HiOutlineXMark } from "react-icons/hi2";
+
+import Spinner from "../Spinner";
+import UserModal from "./UserModal";
+import ProductModal from "./productModal";
 
 import useGetData from "../../hooks/useGetData";
 import { useCloseModal } from "../../hooks/useModal";
 
 import AppContext from "../../context/AppContext";
-import ProductModal from "./productModal";
-import UserModal from "./UserModal";
 
 export default function Modal() {
   const { pathname } = useLocation();
@@ -24,11 +26,14 @@ export default function Modal() {
       }`}
     >
       {/* modal */}
-      <div className="bg-primary-bg dark:bg-primary-bg-dark px-10 py-8 min-w-1/2 min-h-1/2 max-w-7xl absolute rounded-md flex flex-col">
+      <div className="bg-primary-bg dark:bg-primary-bg-dark px-10 pb-8 pt-0 min-w-1/2 min-h-1/2 max-w-[90%] max-h-[90%] overflow-auto absolute rounded-md flex flex-col">
         {/* modal header */}
-        <div className="flex justify-end text-primary-txt dark:text-white">
+        <div className="py-4 bg-primary-bg dark:bg-primary-bg-dark z-50 sticky top-0 flex justify-between items-center text-primary-txt dark:text-white">
+          <h2 className="text-xl font-medium">
+            {pathname === "/users" ? "User" : "Product"} Details
+          </h2>
           <button onClick={handelClose} className="text-2xl cursor-pointer">
-            <VscChromeClose />
+            <HiOutlineXMark />
           </button>
         </div>
 
@@ -40,7 +45,7 @@ export default function Modal() {
             </div>
           ) : data === null ? (
             <div className="animate-spin text-4xl dark:text-white">
-              <VscLoading />
+              <Spinner />
             </div>
           ) : (
             data &&
