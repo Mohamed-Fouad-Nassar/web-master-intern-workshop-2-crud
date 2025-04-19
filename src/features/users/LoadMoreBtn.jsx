@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { getusers } from "../../services/productsAPI";
+
 import Button from "../../components/Button";
+
+import { getUsers } from "../../services/usersAPI";
 
 export default function LoadMoreBtn({ setUsers, users }) {
   const [loading, setLoading] = useState(false);
@@ -8,7 +10,7 @@ export default function LoadMoreBtn({ setUsers, users }) {
   const updateUsersData = async (addedUsersCount) => {
     setLoading(true);
     try {
-      const apiUsers = await getusers(addedUsersCount);
+      const apiUsers = await getUsers(addedUsersCount);
       setUsers(apiUsers);
     } catch (error) {
       console.error("Failed to load more users:", error);
@@ -22,7 +24,10 @@ export default function LoadMoreBtn({ setUsers, users }) {
       <Button
         onClick={() => updateUsersData(users.length + 20)}
         disabled={loading}
-        className={`${loading && "!bg-primary-btn-bg/30 !cursor-not-allowed !border-primary-btn-bg/30"}`}
+        className={`${
+          loading &&
+          "!bg-primary-btn-bg/30 !cursor-not-allowed !border-primary-btn-bg/30"
+        }`}
       >
         {loading ? "Loading..." : "Load More"}
       </Button>

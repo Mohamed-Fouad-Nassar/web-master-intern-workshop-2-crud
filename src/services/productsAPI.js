@@ -1,10 +1,6 @@
 import axios from "axios";
 
-import {
-  ITEMS_PER_PAGE,
-  PRODUCTS_API_URL,
-  USERS_API_URL,
-} from "../utils/helpers";
+import { ITEMS_PER_PAGE, PRODUCTS_API_URL } from "../utils/helpers";
 
 export async function getProducts(filter, sort, page, query) {
   const offset = (page - 1) * ITEMS_PER_PAGE || 0;
@@ -29,17 +25,5 @@ export async function getProductsCount(filter, sort, query) {
 
   const api = `${PRODUCTS_API_URL}?${params.toString()}`;
   const res = await axios.get(api);
-  return res?.data?.length || 0;
-}
-
-export async function getusers(addedUsersCount) {
-  let api = `${USERS_API_URL}?limit=${addedUsersCount || 20}`;
-
-  const res = await axios.get(api);
-  return res.data;
-}
-
-export async function getusersCount() {
-  const res = await axios.get(USERS_API_URL);
   return res?.data?.length || 0;
 }
