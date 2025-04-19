@@ -1,25 +1,54 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getusers } from "../../services/usersAPI";
+import axios from "axios";
+
+const API_URL = "https://api.escuelajs.co/api/v1";
 
 const initialState = {
   isLoggedIn: false,
+  token: null,
+  user: null,
   loading: false,
+  error: null,
 };
 
+// logging in
 export const LogIn = createAsyncThunk(
   "auth/LogIn",
-  async (credentials, { rejectWithValue }) => {
-    const allUsers = await getusers(null, true);
-    const user = allUsers.find(
-      (u) =>
-        u.email === credentials.email &&
-        u.password === credentials.password &&
-        u.role === "admin"
-    );
-    if (user) {
-      return user;
-    } else {
-      return rejectWithValue("Invalid email or password");
+  async (payloadUser, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(`${API_URL}/auth/login`, payloadUser);
+      const { access_token } = res.data;
+
+      localStorage.setItem("token", access_token);
+
+      return access_token;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Invalid email or password"
+      );
+    }
+  }
+);
+
+// fetch for the user profile
+export const fetchProfile = createAsyncThunk(
+  "auth/fetchProfile",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      if (!token) throw new Error("No token found");
+
+      const response = await axios.get(`${API_URL}/auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch profile"
+      );
     }
   }
 );
@@ -29,12 +58,18 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      (state.isLoggedIn = false), (state.loading = null);
+      state.isLoggedIn = false;
+      state.token = null;
+      state.user = null;
       state.error = null;
+
+      // Remove the token from localStorage
+      localStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
     builder
+      // Handle login
       .addCase(LogIn.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -42,18 +77,33 @@ export const authSlice = createSlice({
       .addCase(LogIn.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.isLoggedIn = true;
-        state.user = payload;
+        state.token = payload;
         state.error = null;
       })
       .addCase(LogIn.rejected, (state, { payload }) => {
         state.loading = false;
         state.isLoggedIn = false;
+        state.token = null;
+        state.error = payload;
+      })
+
+      // Handle fetching profile
+      .addCase(fetchProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProfile.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.user = payload;
+        state.error = null;
+      })
+      .addCase(fetchProfile.rejected, (state, { payload }) => {
+        state.loading = false;
         state.user = null;
         state.error = payload;
       });
   },
 });
-
 export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
