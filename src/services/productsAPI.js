@@ -33,7 +33,7 @@ export async function getProductsCount(filter, sort, query) {
 }
 
 export async function getusers(addedUsersCount) {
-  let api = `${USERS_API_URL}?limit=${addedUsersCount || 20}`;
+  let api = `${USERS_API_URL}?limit=${addedUsersCount || 10}`;
 
   const res = await axios.get(api);
   return res.data;
