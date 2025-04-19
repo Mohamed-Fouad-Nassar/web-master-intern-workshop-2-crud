@@ -9,8 +9,8 @@ export default function MainLayout() {
     <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] max-w-full">
       <Header />
       <Sidebar />
-      <main className="overflow-x-hidden bg-secondary-bg dark:bg-secondary-bg-dark">
-        <div className="px-4 py-2 container mx-auto">
+      <main className="overflow-y-auto bg-secondary-bg dark:bg-secondary-bg-dark">
+        <div className="px-4 py-2 container mx-auto relative">
           <Outlet />
           <Modal />
         </div>

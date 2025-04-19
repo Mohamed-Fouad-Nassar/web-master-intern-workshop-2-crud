@@ -1,6 +1,9 @@
 import axios from "axios";
 
-import { ITEMS_PER_PAGE, PRODUCTS_API_URL } from "../utils/helpers";
+import {
+  ITEMS_PER_PAGE,
+  PRODUCTS_API_URL,
+} from "../utils/helpers";
 
 export async function getProducts(filter, sort, page, query) {
   const offset = (page - 1) * ITEMS_PER_PAGE || 0;

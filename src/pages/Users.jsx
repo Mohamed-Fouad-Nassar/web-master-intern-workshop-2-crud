@@ -8,7 +8,7 @@ import UsersHeadingSec from "../features/users/usersHeadingSec";
 import { getUsers } from "../services/usersAPI";
 
 export default function Users() {
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState([]);
 
   // display users on first render
   useEffect(() => {
@@ -16,7 +16,6 @@ export default function Users() {
       const apiUsers = await getUsers();
       setUsers(apiUsers);
     }
-
     getUsersData();
   }, []);
 

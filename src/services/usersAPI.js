@@ -4,7 +4,6 @@ import { USERS_API_URL } from "../utils/helpers";
 
 export async function getUsers(addedUsersCount) {
   let api = `${USERS_API_URL}?limit=${addedUsersCount || 20}`;
-
   const res = await axios.get(api);
   return res.data;
 }
