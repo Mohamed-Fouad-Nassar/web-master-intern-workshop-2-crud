@@ -1,68 +1,29 @@
-import axios from "axios";
-import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
-
+import { useEffect } from "react";
 import FormInput from "./FormInput";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCategories } from "../api/products";
+import FormValidator from "./FormValidator";
 
-const ProductForms = ({ use }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    price: "",
-    discount: "",
-    img: "",
-  });
+const ProductForms = ({ use, handleSubmit, setFormData,formData,error,validateErrors }) => {
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.products.categories);
   const handleChange = (name, value) => {
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]:
+        name === "images" ? value.split(",").map((img) => img.trim()) : value,
     }));
   };
-  const navigate = useNavigate();
-  const [error, setError] = useState(null);
-  // Fetching data for edit form
+//for getting the categories for the select
   useEffect(() => {
-    if (use === "Edit") {
-      const id = window.location.pathname.split("/")[2];
-      axios
-        .get(
-          `https://web-master-intern-workshop-2-crud-backend.vercel.app/products/${id}`
-        )
-        .then((res) => {
-          setFormData(res.data);
-        })
-        .catch((err) => {
-          console.error("Error fetching product data:", err);
-          setError("Failed to fetch product data. Please try again later.");
-        });
-    }
-  }, [use]);
-  // for handeling the submit button
-  async function handleSubmit(e) {
-    e.preventDefault();
-    try {
-      if (use === "Create") {
-        await axios.post(
-          `https://web-master-intern-workshop-2-crud-backend.vercel.app/products`,
-          formData
-        );
-      } else if (use === "Edit") {
-        const id = window.location.pathname.split("/")[2];
-        await axios.put(
-          `https://web-master-intern-workshop-2-crud-backend.vercel.app/products/${id}`,
-          formData
-        );
-      }
-      navigate("/");
-    } catch (err) {
-      console.error("Error submitting form:", err);
-      setError("Something went wrong. Please try again later.");
-    }
-  }
+    dispatch(getAllCategories());
+  }, [dispatch]);
 
   return (
-    <div className="productForms">
-      <h1 className="relative text-3xl font-bold pl-2 mb-7">{use} Product</h1>
+    <div className="productForms p-2">
+      <h1 className="relative text-3xl font-bold pl-2 mb-7 dark:text-primary-txt-dark">
+        {use} Product
+      </h1>
       <form onSubmit={handleSubmit} className="ml-3">
         <FormInput
           label="Title"
@@ -71,6 +32,7 @@ const ProductForms = ({ use }) => {
           onChange={handleChange}
           value={formData.title}
         />
+        <FormValidator error={validateErrors?.title} />
         <FormInput
           label="Description"
           type="text"
@@ -78,40 +40,63 @@ const ProductForms = ({ use }) => {
           onChange={handleChange}
           value={formData.description}
         />
-        <div className="flex gap-5 max-w-[50%]">
-          <FormInput
-            label="Price"
-            type="number"
-            name="price"
-            onChange={handleChange}
-            value={formData.price}
-          />
-          <FormInput
-            label="Discount"
-            type="number"
-            name="discount"
-            onChange={handleChange}
-            value={formData.discount}
-          />
+        <FormValidator error={validateErrors?.description} />
+        <FormInput
+          label="Price"
+          type="number"
+          name="price"
+          onChange={handleChange}
+          value={formData.price}
+        />
+        <FormValidator error={validateErrors?.price} />
+        <div className="flex flex-col mt-6 mb-1 gap-2 max-w-[50%]">
+          <label
+            htmlFor="categories"
+            className="text-xl font-medium text-primary-txt dark:text-primary-txt-dark"
+          >
+            Categories
+          </label>
+          <select
+            id="categories"
+            name="categoryId"
+            onChange={(e) => handleChange("categoryId", e.target.value)}
+            value={formData.categoryId}
+            className="cursor-pointer p-2 border border-secondary-txt focus:border-primary-btn-bg rounded-md outline-none transition-all duration-300 ease-in-out text-primary-txt dark:text-white"
+          >
+            <option value="" className="dark:bg-primary-bg-dark cursor-pointer">
+              Choose category
+            </option>
+
+            {categories.map((category) => (
+              <option
+                key={category.id}
+                value={category.id}
+                className="dark:bg-primary-bg-dark cursor-pointer"
+              >
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
+        <FormValidator error={validateErrors?.categoryId} />
         <FormInput
           label="Image URL"
           type="text"
-          name="img"
+          name="images"
           onChange={handleChange}
-          value={formData.img}
+          value={formData.images.join(", ")}
         />
-
+        <FormValidator error={validateErrors?.images} />
         <button
           type="submit"
           disabled={error && use === "Edit" ? true : false}
           className={`${
             error && use === "Edit" ? "grayscale opacity-50" : ""
-          } bg-[var(--color-primary-btn-bg)] text-[var(--color-primary-txt)] font-md text-xl px-4 py-2 rounded-md cursor-pointer filter hover:brightness-90 transition-all duration-300 ease-in-out`}
+          } mt-6 dark:text-primary-txt-dark bg-primary-btn-bg text-primary-txt font-md text-xl px-4 py-2 rounded-md cursor-pointer filter hover:brightness-90 transition-all duration-300 ease-in-out`}
         >
           {use === "Create" ? "Create" : "Edit"} a product
         </button>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {error && <p className="text-red-500 mt-2">Oops, Something Went Wrong</p>}
       </form>
     </div>
   );
