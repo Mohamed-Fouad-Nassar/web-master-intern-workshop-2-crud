@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getusers, getusersCount } from "../../services/productsAPI";
 import Button from "../../components/Button";
+import { getusers, getusersCount } from "../../services/usersAPI";
 
 export default function LoadMoreBtn({ setUsers, users }) {
   const [loading, setLoading] = useState(false);
@@ -28,13 +28,16 @@ export default function LoadMoreBtn({ setUsers, users }) {
   };
 
   if (usersCounts === users.length) return null;
-  
+
   return (
     <div className="flex items-center justify-center w-full">
       <Button
         onClick={() => updateUsersData(users.length + 10)}
         disabled={loading}
-        className={`${loading && "!bg-primary-btn-bg/30 !cursor-not-allowed !border-primary-btn-bg/30"}`}
+        className={`${
+          loading &&
+          "!bg-primary-btn-bg/30 !cursor-not-allowed !border-primary-btn-bg/30"
+        }`}
       >
         {loading ? "Loading..." : "Load More"}
       </Button>

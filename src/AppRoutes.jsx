@@ -19,15 +19,26 @@ import SearchResults from "./pages/SearchResults";
 import { useCloseModal } from "./hooks/useModal";
 
 import { DarkModeProvider } from "./contexts/DarkModeContext";
+import { useSelector } from "react-redux";
 
 export default function AppRoutes() {
   const { pathname } = useLocation();
   const closeModal = useCloseModal();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
+  // navigate to login page if the admin isnt logged in
+  useEffect(() => {
+    if (pathname !== "/login" && !isLoggedIn) {
+      window.location.href = "/login";
+    } else if (pathname === "/login" && isLoggedIn) {
+      window.location.href = "/";
+    }
+  }, [pathname, isLoggedIn]);
 
   // Close modal if the user navigates to a different page
   useEffect(() => {
     closeModal();
-  }, [pathname]);
+  }, [pathname, closeModal]);
 
   return (
     <DarkModeProvider>
