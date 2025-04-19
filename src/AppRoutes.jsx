@@ -17,23 +17,12 @@ import CreateProduct from "./pages/CreateProduct";
 import SearchResults from "./pages/SearchResults";
 
 import { useCloseModal } from "./hooks/useModal";
-
 import { DarkModeProvider } from "./contexts/DarkModeContext";
-import { useSelector } from "react-redux";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function AppRoutes() {
   const { pathname } = useLocation();
   const closeModal = useCloseModal();
-  const { isLoggedIn } = useSelector((state) => state.auth);
-
-  // navigate to login page if the admin isnt logged in
-  useEffect(() => {
-    if (pathname !== "/login" && !isLoggedIn) {
-      window.location.href = "/login";
-    } else if (pathname === "/login" && isLoggedIn) {
-      window.location.href = "/";
-    }
-  }, [pathname, isLoggedIn]);
 
   // Close modal if the user navigates to a different page
   useEffect(() => {
@@ -44,26 +33,30 @@ export default function AppRoutes() {
     <DarkModeProvider>
       <Toaster position="top-right" />
       <Routes>
-        {/* Main Layout */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/search" element={<SearchResults />} />
-
-          <Route path="products" element={<Products />} />
-          <Route path="products/create" element={<CreateProduct />} />
-          <Route path="products/:productId/edit" element={<EditProduct />} />
-
-          <Route path="users" element={<Users />} />
-          <Route path="users/create" element={<CreateUser />} />
-        </Route>
-
-        {/* Auth Layout */}
+        {/* Public Routes */}
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
 
-        {/* Error Page or Not Found Page */}
+        {/* Protected Routes */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/search" element={<SearchResults />} />
+          <Route path="products" element={<Products />} />
+          <Route path="products/create" element={<CreateProduct />} />
+          <Route path="products/:productId/edit" element={<EditProduct />} />
+          <Route path="users" element={<Users />} />
+          <Route path="users/create" element={<CreateUser />} />
+        </Route>
+
+        {/* Error Page */}
         <Route path="*" element={<Error />} />
       </Routes>
     </DarkModeProvider>

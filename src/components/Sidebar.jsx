@@ -43,12 +43,11 @@ export default function Sidebar() {
   // };
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const { user } = useSelector((state) => state.auth);
+  const {user} = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
     persistor.purge();
-    window.location.href = "/login";
   };
 
   return (
@@ -66,16 +65,16 @@ export default function Sidebar() {
 
         <div className="sm:py-10 w-full flex flex-col gap-4 items-center">
           <img
-            src={user?.avatar ?? profile}
-            alt={user?.name ?? ""}
+            src={user??.avatar || profile}
+            alt={user??.name || ""}
             className="w-16 md:w-36 h-16 md:h-36 rounded-full object-cover"
           />
           <div className="details-person w-full h-auto flex flex-col gap-2 justify-center items-center">
             <h1 className="font-bold text-xl text-center">
-              {user?.name ?? "No access"}
+              {user??.name || "No access"}
             </h1>
             <p className="text-third-txt dark:text-third-txt-dark">
-              {user?.role ?? "admin"}
+              {user??.role || "admin"}
             </p>
           </div>
         </div>

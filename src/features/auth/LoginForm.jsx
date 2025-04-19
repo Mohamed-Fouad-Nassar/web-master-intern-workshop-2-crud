@@ -2,42 +2,36 @@ import { Form, Formik } from "formik";
 import Button from "../../components/Button";
 import FormInputLogin from "../../components/FormInputLogin";
 import {
-  createLoginValidationSchema,
   loginInitialValues,
+  loginValidationSchema,
 } from "../../utils/loginValidation";
-import { useEffect, useState } from "react";
-import { getusers } from "../../services/usersAPI";
 import { useDispatch, useSelector } from "react-redux";
-import { LogIn } from "../../store/auth/authSlice";
+import { fetchProfile, LogIn } from "../../store/auth/authSlice";
+import { useNavigate } from "react-router";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
-  const [validationSchema, setValidationSchema] = useState(null);
+  const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    async function fetchUsers() {
-      const allData = await getusers(null, true);
-      setValidationSchema(createLoginValidationSchema(allData));
+  const handleSubmit = async (values) => {
+    const res = await dispatch(LogIn(values)).unwrap();
+    if (res) {
+      dispatch(fetchProfile())
+      navigate("/");
     }
-    fetchUsers();
-  }, []);
-
-  const handleSubmit = (values) => {
-    dispatch(LogIn(values));
-    console.log("sesh");
   };
 
   return (
     <Formik
       initialValues={loginInitialValues}
-      validationSchema={validationSchema}
+      validationSchema={loginValidationSchema}
       onSubmit={handleSubmit}
     >
       <Form className="block w-full">
         <FormInputLogin label="Email" name="email" type="email" />
         <FormInputLogin label="Password" name="password" type="password" />
-        <Button type="submit" className="mt-4 w-full">
+        <Button type="submit" className="mt-4 w-full" disabled={loading}>
           {loading ? "Logging in..." : "Log in"}
         </Button>
         {error && <p className="text-red-500 mt-2">{error}</p>}
