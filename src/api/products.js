@@ -1,6 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+
+export const getAllProducts = createAsyncThunk(
+  "products/getAllProducts",
+  async (API, ThunkAPI) => {
+    const { rejectWithValue } = ThunkAPI;
+    try {
+      const res = await axios.get(API);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 // for getting single product
 export const getProductByID = createAsyncThunk(
   "products/getSingleProduct",
@@ -11,6 +24,19 @@ export const getProductByID = createAsyncThunk(
         `https://api.escuelajs.co/api/v1/products/${id}`
       );
       return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+// for deleting single product
+export const deleteProduct = createAsyncThunk(
+  "products/delteProduct",
+  async (id, ThunkAPI) => {
+    const { rejectWithValue } = ThunkAPI;
+    try {
+      await axios.delete(`https://api.escuelajs.co/api/v1/products/${id}`);
+      return { id };
     } catch (err) {
       return rejectWithValue(err.response.data);
     }

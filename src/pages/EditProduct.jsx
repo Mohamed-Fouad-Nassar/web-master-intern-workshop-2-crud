@@ -46,7 +46,7 @@ export default function EditProduct() {
     if (isValide) {
       dispatch(updateProduct(formData))
         .unwrap()
-        .then(() => navigate("/"))
+        .then(() => navigate("/products"))
         .catch((err) => {
           console.error("Error creating product:", err);
         });

@@ -25,7 +25,7 @@ export default function CreateProduct() {
     if (isValide) {
       dispatch(createNewProduct(formData))
         .unwrap()
-        .then(() => navigate("/"))
+        .then(() => navigate("/products"))
         .catch((err) => {
           console.error("Error creating product:", err);
         });

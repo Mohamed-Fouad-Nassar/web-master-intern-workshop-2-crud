@@ -1,13 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createNewProduct,
+  deleteProduct,
   getAllCategories,
+  getAllProducts,
   getProductByID,
   updateProduct,
 } from "../../api/products";
 
 const initialState = {
   products: [],
+  currentProducts: [],
   categories: [],
   product: {},
   isLoading: false,
@@ -20,6 +23,11 @@ export const productsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(getAllProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentProducts = action.payload;
+        state.products = [...state.products, action.payload];
+      })
       .addCase(getProductByID.fulfilled, (state, action) => {
         state.isLoading = false;
         state.product = action.payload;
@@ -29,6 +37,13 @@ export const productsSlice = createSlice({
         state.products = state.products.map((product) =>
           product.id === action.payload.id ? action.payload : product
         );
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        console.log(action.payload.id);
+        state.currentProducts = state.currentProducts.filter(
+          (product) => product.id !== action.payload.id
+        );
+        state.isLoading = false;
       })
       .addCase(createNewProduct.fulfilled, (state, action) => {
         state.isLoading = false;

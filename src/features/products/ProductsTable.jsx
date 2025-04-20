@@ -7,9 +7,18 @@ import Button from "../../components/Button";
 import { useOpenModal } from "../../hooks/useModal";
 
 import { formatPrice } from "../../utils/helpers";
+import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProduct } from "../../api/products";
 
 export default function ProductsTable({ products }) {
   const openModal = useOpenModal();
+  const dispatch = useDispatch();
+    const loading = useSelector((state) => state.products.isLoading);
+
+  const handelDelete = (id) => {
+    dispatch(deleteProduct(id));
+  };
 
   return (
     <div className="my-4 overflow-x-auto text-sm">
@@ -24,7 +33,7 @@ export default function ProductsTable({ products }) {
           </tr>
         </thead>
         <tbody>
-          {!products ? (
+          {loading ? (
             <tr>
               <td colSpan={100} className="h-[80vh] [&_div]:mx-auto">
                 <Spinner />
@@ -69,10 +78,16 @@ export default function ProductsTable({ products }) {
                     >
                       <HiMiniEye className="text-third-txt dark:text-third-txt-dark" />
                     </Button>
-                    <Button variation="ghost" size="sm">
-                      <HiMiniPencil className="text-third-txt dark:text-third-txt-dark" />
-                    </Button>
-                    <Button variation="ghost" size="sm">
+                    <Link to={`/products/${id}/edit`}>
+                      <Button variation="ghost" size="lg">
+                        <HiMiniPencil className="text-third-txt dark:text-third-txt-dark" />
+                      </Button>
+                    </Link>
+                    <Button
+                      onClick={() => handelDelete(id)}
+                      variation="ghost"
+                      size="sm"
+                    >
                       <HiMiniTrash className="text-third-txt dark:text-third-txt-dark" />
                     </Button>
                   </div>
