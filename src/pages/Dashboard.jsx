@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import Spinner from "../components/Spinner";
 import { getProductsCount } from "../services/productsAPI";
-import { getusers, getusersCount } from "../services/usersAPI";
+import { getusersCount } from "../services/usersAPI";
 import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../context/AppContext";
 
@@ -31,18 +31,14 @@ export default function Dashboard() {
         // fetch total product count
         const products = await getProductsCount();
 
-        // fetch all users and their roles
-        const allUsers = await getusers(null, true);
-        const customers = allUsers.filter(
-          (user) => user.role === "customer"
-        ).length;
-        const admins = allUsers.filter((user) => user.role === "admin").length;
+        // fetch all users by their roles
+        const customer = await getusersCount("customer");
+        const admin = await getusersCount("admin");
 
         // fetch total user count
         const users = await getusersCount();
-
         // update state with fetched data
-        setDataCounts({ products, users, customers, admins });
+        setDataCounts({ products, users, customer, admin });
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {

@@ -1,23 +1,23 @@
 import axios from "axios";
 import { USERS_API_URL } from "../utils/helpers";
 
-export async function getusers(addedUsersCount = 10, allUsers) {
-  let api = allUsers
-    ? USERS_API_URL
-    : `${USERS_API_URL}?limit=${addedUsersCount}`;
+export async function getusers(allUsers, offset = 10) {
+  const res = await axios.get(USERS_API_URL);
 
-  const res = await axios.get(api);
+  return getUsersByRole(allUsers, res).slice(0, offset);
+}
 
-  if (allUsers && allUsers === "admins") {
+export async function getusersCount(allUsers) {
+  const res = await axios.get(USERS_API_URL);
+  return getUsersByRole(allUsers, res).length || 0;
+}
+
+function getUsersByRole(allUsers, res) {
+  if (allUsers && allUsers === "admin") {
     return res.data.filter((user) => user.role === "admin");
-  } else if (allUsers && allUsers === "customers") {
+  } else if (allUsers && allUsers === "customer") {
     return res.data.filter((user) => user.role === "customer");
   } else {
     return res.data;
   }
-}
-
-export async function getusersCount() {
-  const res = await axios.get(USERS_API_URL);
-  return res?.data?.length || 0;
 }

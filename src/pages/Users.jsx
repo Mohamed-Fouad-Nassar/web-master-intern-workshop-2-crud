@@ -3,22 +3,24 @@ import UsersTable from "../features/users/usersTable";
 import UsersHeadingSec from "../features/users/usersHeadingSec";
 import { useContext, useEffect, useState } from "react";
 import LoadMoreBtn from "../features/users/LoadMoreBtn";
-import { getusers } from "../services/usersAPI";
+import { getusers, getusersCount } from "../services/usersAPI";
 import AppContext from "../context/AppContext";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
   const { usersRole } = useContext(AppContext);
+  const [usersCounts, setUsersCounts] = useState(0);
 
   // display users on first render
   useEffect(() => {
     async function getUsersData() {
       // first render
-      const usersData = await getusers(10,usersRole);
+      const usersData = await getusers(usersRole);
+      const userslength = await getusersCount(usersRole);
+
       setUsers(usersData);
+      setUsersCounts(userslength);
     }
-    // filter the users to the usersRole
-    // change the getUsers function in all compoenets
 
     getUsersData();
   }, [usersRole]);
@@ -28,7 +30,7 @@ export default function Users() {
       <Breadcrumb cur="users" links={[{ title: "home", href: "/" }]} />
       <UsersHeadingSec />
       <UsersTable users={users} />
-      <LoadMoreBtn {...{ setUsers, users }} />
+      <LoadMoreBtn {...{ setUsers, users, usersCounts }} />
     </>
   );
 }
