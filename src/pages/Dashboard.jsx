@@ -62,7 +62,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="grid grid-cols-4 gap-6 py-20">
+    <div className="grid xl:grid-cols-4 sm:grid-cols-2 gap-6 py-20">
       {Object.entries(dataCounts).map(([key, val], i) => (
         <Link
           to={key === "products" ? "/products" : "/users"}
