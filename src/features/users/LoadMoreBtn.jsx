@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "../../components/Button";
-import { getusers, getusersCount } from "../../services/usersAPI";
+import { getusers } from "../../services/usersAPI";
+import AppContext from "../../context/AppContext";
 
 export default function LoadMoreBtn({ setUsers, users }) {
   const [loading, setLoading] = useState(false);
   const [usersCounts, setUsersCounts] = useState(0);
+  const { usersRole } = useContext(AppContext);
 
   useEffect(() => {
     const fetchUsersCount = async () => {
-      const count = await getusersCount();
-      setUsersCounts(count);
+      setUsersCounts(users.length);
     };
 
     fetchUsersCount();
-  }, []);
+  }, [users]);
 
   const updateUsersData = async (addedUsersCount) => {
     setLoading(true);
     try {
-      const apiUsers = await getusers(addedUsersCount);
+      const apiUsers = await getusers(addedUsersCount, usersRole);
       setUsers(apiUsers);
     } catch (error) {
       console.error("Failed to load more users:", error);

@@ -50,7 +50,6 @@ export default function Sidebar() {
     persistor.purge();
   };
 
-  console.log(user)
   return (
     <nav
       // className={`${

@@ -19,8 +19,6 @@ export default function Modal() {
   // get the selected user || product data
   const { data } = useGetData(selectedId);
 
-  console.log("data: ", data);
-
   return (
     <div
       className={`fixed inset-0 z-50 flex justify-center items-center transition-all ${

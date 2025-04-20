@@ -8,7 +8,13 @@ export async function getusers(addedUsersCount = 10, allUsers) {
 
   const res = await axios.get(api);
 
-  return res.data;
+  if (allUsers && allUsers === "admins") {
+    return res.data.filter((user) => user.role === "admin");
+  } else if (allUsers && allUsers === "customers") {
+    return res.data.filter((user) => user.role === "customer");
+  } else {
+    return res.data;
+  }
 }
 
 export async function getusersCount() {
