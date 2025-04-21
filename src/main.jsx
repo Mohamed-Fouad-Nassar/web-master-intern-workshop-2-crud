@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom"; // small fix: react-router -> react-router-dom
 
 import AppRoutes from "./AppRoutes.jsx";
-import { AppProvider } from "./context/AppContext.jsx";
+import { AppProvider } from "./contexts/AppContext.jsx";
 
 import { store, persistor } from "./store/store.js";
 import { PersistGate } from "redux-persist/integration/react";

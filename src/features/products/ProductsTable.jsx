@@ -1,8 +1,12 @@
+import { Link } from "react-router";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { HiMiniEye, HiMiniPencil, HiMiniTrash } from "react-icons/hi2";
 
+import Button from "../../components/Button";
 import Spinner from "../../components/Spinner";
 
-import Button from "../../components/Button";
+import { deleteProduct } from "../../api/products";
 
 import { useOpenModal } from "../../hooks/useModal";
 
@@ -10,6 +14,18 @@ import { formatPrice } from "../../utils/helpers";
 
 export default function ProductsTable({ products }) {
   const openModal = useOpenModal();
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.products.isLoading);
+
+  const handelDelete = (id) => {
+    dispatch(deleteProduct(id))
+      .unwrap()
+      .then(() => toast.success("Product Deleted Successfully"))
+      .catch((err) => {
+        console.log(err.message);
+        toast.error("Something went wrong!");
+      });
+  };
 
   return (
     <div className="my-4 overflow-x-auto text-sm">
@@ -24,7 +40,7 @@ export default function ProductsTable({ products }) {
           </tr>
         </thead>
         <tbody>
-          {!products ? (
+          {isLoading ? (
             <tr>
               <td colSpan={100} className="h-[80vh] [&_div]:mx-auto">
                 <Spinner />
@@ -63,16 +79,27 @@ export default function ProductsTable({ products }) {
                 <td>
                   <div className="max-w-fit flex gap-2 overflow-hidden *:text-lg">
                     <Button
-                      onClick={() => openModal(id)}
-                      variation="ghost"
                       size="sm"
+                      variation="ghost"
+                      onClick={() => openModal(id)}
                     >
                       <HiMiniEye className="text-third-txt dark:text-third-txt-dark" />
                     </Button>
-                    <Button variation="ghost" size="sm">
+
+                    <Button
+                      as={Link}
+                      size="sm"
+                      variation="ghost"
+                      to={`/products/${id}/edit`}
+                    >
                       <HiMiniPencil className="text-third-txt dark:text-third-txt-dark" />
                     </Button>
-                    <Button variation="ghost" size="sm">
+
+                    <Button
+                      size="sm"
+                      variation="ghost"
+                      onClick={() => handelDelete(id)}
+                    >
                       <HiMiniTrash className="text-third-txt dark:text-third-txt-dark" />
                     </Button>
                   </div>

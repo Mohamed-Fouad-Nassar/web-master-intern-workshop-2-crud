@@ -20,6 +20,8 @@ export default function Pagination() {
   useEffect(() => {
     const minPrice = searchParams.get("price_min");
     const maxPrice = searchParams.get("price_max");
+    const category = searchParams.get("category");
+
     const query = searchParams.get("query");
 
     // set current page to 1 if not set in url params
@@ -28,8 +30,7 @@ export default function Pagination() {
     async function getFullProductsCount() {
       try {
         const fullProductsCount = await getProductsCount(
-          { minPrice, maxPrice },
-          null,
+          { minPrice, maxPrice, category },
           query
         );
         setTotalPages(Math.ceil(fullProductsCount / ITEMS_PER_PAGE));
@@ -50,15 +51,11 @@ export default function Pagination() {
 
   // handle previous and next page actions
   const handlePrev = () => {
-    if (currPage > 1) {
-      handlePageChange(currPage - 1);
-    }
+    if (currPage > 1) handlePageChange(currPage - 1);
   };
 
   const handleNext = () => {
-    if (currPage < totalPages) {
-      handlePageChange(currPage + 1);
-    }
+    if (currPage < totalPages) handlePageChange(currPage + 1);
   };
 
   if (totalPages <= 1) return null;
