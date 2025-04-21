@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 import { HiPlus } from "react-icons/hi2";
 
-import Sort from "../../components/Sort";
 import Button from "../../components/Button";
 import Filter from "../../components/Filter";
 import Heading from "../../components/Heading";
@@ -10,9 +9,7 @@ export default function ProductsHeaderSec() {
   return (
     <section className="flex gap-2 flex-row items-center justify-between border-b border-gray-200 dark:border-gray-300/20 py-2">
       <Heading className="!mb-0">Products List</Heading>
-
       <div className="relative flex gap-2 items-center">
-        <Sort />
         <Filter />
         <Button
           as={Link}

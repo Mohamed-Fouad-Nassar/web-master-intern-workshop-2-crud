@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { getAllProducts } from "../api/products";
+
 import { ITEMS_PER_PAGE, PRODUCTS_API_URL } from "../utils/helpers";
 
-export function useGetProducts(filter, sort, page, query) {
+export function useGetProducts(filter, page, query) {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.currentProducts);
 
@@ -14,9 +16,17 @@ export function useGetProducts(filter, sort, page, query) {
     if (query) api += `&title=${query}`;
     if (filter?.minPrice && filter?.maxPrice)
       api += `&price_min=${filter.minPrice}&price_max=${filter.maxPrice}`;
+    if (filter?.category) api += `&categoryId=${filter.category}`;
 
     dispatch(getAllProducts(api));
-  }, [dispatch, sort, page, query]);
+  }, [
+    page,
+    query,
+    dispatch,
+    filter.minPrice,
+    filter.maxPrice,
+    filter.category,
+  ]);
 
   return products;
 }

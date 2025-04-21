@@ -8,7 +8,7 @@ import useProductFormValidation from "../hooks/useProductFormValidation";
 
 export default function EditProduct() {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.products.isLoading);
+  const isLoading = useSelector((state) => state.products.isLoading);
   const error = useSelector((state) => state.products.error);
   const product = useSelector((state) => state.products.product);
   const { productId } = useParams();
@@ -55,9 +55,9 @@ export default function EditProduct() {
 
   return (
     <>
-      {loading && (
-        <div className="absolute top-0 left-0 w-full min-h-[90vh] dark:bg-black bg-orange-100  flex items-center justify-center z-50">
-          <Spinner size="size-50" />
+      {isLoading && (
+        <div className="absolute top-0 left-0 w-full min-h-[90vh] dark:bg-black bg-white flex items-center justify-center z-50">
+          <Spinner size="size-14" />
         </div>
       )}
       <ProductForms

@@ -9,7 +9,7 @@ import ProductModal from "./productModal";
 import useGetData from "../../hooks/useGetData";
 import { useCloseModal } from "../../hooks/useModal";
 
-import AppContext from "../../context/AppContext";
+import AppContext from "../../contexts/AppContext";
 
 export default function Modal() {
   const { pathname } = useLocation();

@@ -3,8 +3,16 @@ import FormInput from "./FormInput";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategories } from "../api/products";
 import FormValidator from "./FormValidator";
+import Button from "./Button";
 
-const ProductForms = ({ use, handleSubmit, setFormData,formData,error,validateErrors }) => {
+const ProductForms = ({
+  use,
+  handleSubmit,
+  setFormData,
+  formData,
+  error,
+  validateErrors,
+}) => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.products.categories);
   const handleChange = (name, value) => {
@@ -14,7 +22,7 @@ const ProductForms = ({ use, handleSubmit, setFormData,formData,error,validateEr
         name === "images" ? value.split(",").map((img) => img.trim()) : value,
     }));
   };
-//for getting the categories for the select
+  //for getting the categories for the select
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
@@ -52,7 +60,7 @@ const ProductForms = ({ use, handleSubmit, setFormData,formData,error,validateEr
         <div className="flex flex-col mt-6 mb-1 gap-2 max-w-[50%]">
           <label
             htmlFor="categories"
-            className="text-xl font-medium text-primary-txt dark:text-primary-txt-dark"
+            className="font-medium text-primary-txt dark:text-primary-txt-dark"
           >
             Categories
           </label>
@@ -87,16 +95,18 @@ const ProductForms = ({ use, handleSubmit, setFormData,formData,error,validateEr
           value={formData.images.join(", ")}
         />
         <FormValidator error={validateErrors?.images} />
-        <button
+        <Button
           type="submit"
           disabled={error && use === "Edit" ? true : false}
-          className={`${
+          className={`mt-4 ${
             error && use === "Edit" ? "grayscale opacity-50" : ""
-          } mt-6 dark:text-primary-txt-dark bg-primary-btn-bg text-primary-txt font-md text-xl px-4 py-2 rounded-md cursor-pointer filter hover:brightness-90 transition-all duration-300 ease-in-out`}
+          }`}
         >
           {use === "Create" ? "Create" : "Edit"} a product
-        </button>
-        {error && <p className="text-red-500 mt-2">Oops, Something Went Wrong</p>}
+        </Button>
+        {error && (
+          <p className="text-red-500 mt-2">Oops, Something Went Wrong</p>
+        )}
       </form>
     </div>
   );

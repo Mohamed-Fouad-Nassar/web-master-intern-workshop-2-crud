@@ -4,7 +4,7 @@ import UsersHeadingSec from "../features/users/usersHeadingSec";
 import { useContext, useEffect, useState } from "react";
 import LoadMoreBtn from "../features/users/LoadMoreBtn";
 import { getusers, getusersCount } from "../services/usersAPI";
-import AppContext from "../context/AppContext";
+import AppContext from "../contexts/AppContext";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
