@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import {
   HiOutlineHome,
   HiOutlineUserGroup,
@@ -6,14 +5,14 @@ import {
   HiOutlineArrowRightOnRectangle,
 } from "react-icons/hi2";
 import { NavLink, useLocation } from "react-router";
-// import { IoIosArrowDropleft } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 
 import Button from "./Button";
 
-import profile from "../assets/avatar-placeholder.png";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../store/auth/authSlice";
 import { persistor } from "../store/store";
+import { logout } from "../store/auth/authSlice";
+
+import profile from "../assets/avatar-placeholder.png";
 
 const PathLinksNavBar = [
   {
@@ -37,44 +36,35 @@ const PathLinksNavBar = [
 ];
 
 export default function Sidebar() {
-  // const [changeStyle, setChangeStyle] = useState(false);
-  // const menuToggle = () => {
-  //   setChangeStyle(!changeStyle);
-  // };
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const {user} = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
     persistor.purge();
+    window.location.href = "/login";
   };
 
   return (
-    <nav
-      // className={`${
-      //   changeStyle ? "changestyle" : ""
-      // } row-span-full p-4 bg-gray-100 md:w-3xs !py-2 relative transition-[!100s]`}
-
-      className="w-28 md:w-3xs row-span-full px-4 bg-primary-bg dark:bg-primary-bg-dark text-primary-txt dark:text-primary-txt-dark relative"
-    >
+    <nav className="w-24 md:w-3xs row-span-full px-1 sm:px-4 bg-primary-bg dark:bg-primary-bg-dark text-primary-txt dark:text-primary-txt-dark relative">
       <div className="container w-full h-dvh py-6 sticky top-0 flex flex-col justify-between items-center">
         <h1 className="font-bold text-xs pl-2 md:text-xl w-[90%] uppercase flex justify-center items-center border-l-4 border-third-txt dark:border-third-txt-dark">
           crud operation
         </h1>
 
-        <div className="py-10 w-full flex flex-col gap-4 items-center">
+        <div className="pt-10 sm:py-10 w-full flex flex-col gap-4 items-center">
           <img
-            src={user?.avatar || profile}
-            alt={user?.name || ""}
+            src={user?.avatar ?? profile}
+            alt={user?.name ?? ""}
             className="w-16 md:w-36 h-16 md:h-36 rounded-full object-cover"
           />
           <div className="details-person w-full h-auto flex flex-col gap-2 justify-center items-center">
             <h1 className="font-bold text-xl text-center">
-              {user?.name || "No access"}
+              {user?.name ?? "No access"}
             </h1>
             <p className="text-third-txt dark:text-third-txt-dark">
-              {user?.role || "admin"}
+              {user?.role ?? "admin"}
             </p>
           </div>
         </div>
@@ -86,9 +76,9 @@ export default function Sidebar() {
                 to={path}
                 className={`${
                   path === pathname
-                    ? "bg-primary-btn-bg dark:bg-primary-btn-bg-dark"
+                    ? "bg-primary-btn-bg/60 dark:bg-primary-btn-bg-dark/60"
                     : "hover:bg-primary-btn-bg/10 dark:hover:bg-primary-btn-bg-dark/10"
-                } w-full flex gap-4 justify-center md:justify-start items-center px-4 py-2 rounded`}
+                } mx-2 w-full flex gap-4 justify-center md:justify-start items-center px-4 py-2 rounded`}
               >
                 <Icon className="text-2xl" />
                 <span className="hidden md:inline">{title}</span>
@@ -105,13 +95,6 @@ export default function Sidebar() {
           <span className="hidden md:inline">Logout</span>
         </Button>
       </div>
-
-      {/* <button
-        onClick={() => menuToggle()}
-        className="arrow absolute top-[2%] right-[-10%] text-2xl text-[#C4C4C4] cursor-pointer"
-      >
-        <IoIosArrowDropleft />
-      </button> */}
     </nav>
   );
 }

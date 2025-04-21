@@ -1,6 +1,5 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
@@ -49,7 +48,8 @@ export const updateProduct = createAsyncThunk(
     const { rejectWithValue } = ThunkAPI;
     try {
       const res = await axios.put(
-        `https://api.escuelajs.co/api/v1/products/${data.id}`,data
+        `https://api.escuelajs.co/api/v1/products/${data.id}`,
+        data
       );
       return res.data;
     } catch (err) {

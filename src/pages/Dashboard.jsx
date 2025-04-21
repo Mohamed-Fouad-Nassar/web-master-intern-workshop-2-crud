@@ -3,7 +3,7 @@ import Spinner from "../components/Spinner";
 import { getProductsCount } from "../services/productsAPI";
 import { getusersCount } from "../services/usersAPI";
 import React, { useContext, useEffect, useState } from "react";
-import AppContext from "../context/AppContext";
+import AppContext from "../contexts/AppContext";
 
 import {
   MdAdminPanelSettings,
