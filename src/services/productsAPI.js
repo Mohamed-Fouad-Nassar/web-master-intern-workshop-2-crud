@@ -5,17 +5,17 @@ import {
   PRODUCTS_API_URL,
 } from "../utils/helpers";
 
-export async function getProducts(filter, sort, page, query) {
-  const offset = (page - 1) * ITEMS_PER_PAGE || 0;
-  let api = `${PRODUCTS_API_URL}?offset=${offset}&limit=${ITEMS_PER_PAGE}`;
+// export async function getProducts(filter, sort, page, query) {
+//   const offset = (page - 1) * ITEMS_PER_PAGE || 0;
+//   let api = `${PRODUCTS_API_URL}?offset=${offset}&limit=${ITEMS_PER_PAGE}`;
 
-  if (query) api += `&title=${query}`;
-  if (filter?.minPrice && filter?.maxPrice)
-    api += `&price_min=${filter.minPrice}&price_max=${filter.maxPrice}`;
+//   if (query) api += `&title=${query}`;
+//   if (filter?.minPrice && filter?.maxPrice)
+//     api += `&price_min=${filter.minPrice}&price_max=${filter.maxPrice}`;
 
-  const res = await axios.get(api);
-  return res.data;
-}
+//   const res = await axios.get(api);
+//   return res.data;
+// }
 
 export async function getProductsCount(filter, sort, query) {
   const params = new URLSearchParams();
