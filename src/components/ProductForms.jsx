@@ -1,9 +1,11 @@
 import { useEffect } from "react";
-import FormInput from "./FormInput";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCategories } from "../api/products";
-import FormValidator from "./FormValidator";
+
 import Button from "./Button";
+import FormInput from "./FormInput";
+import FormValidator from "./FormValidator";
+
+import { getAllCategories } from "../api/products";
 
 const ProductForms = ({
   use,
@@ -32,7 +34,7 @@ const ProductForms = ({
       <h1 className="relative text-3xl font-bold pl-2 mb-7 dark:text-primary-txt-dark">
         {use} Product
       </h1>
-      <form onSubmit={handleSubmit} className="ml-3">
+      <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
         <FormInput
           label="Title"
           type="text"
@@ -57,7 +59,7 @@ const ProductForms = ({
           value={formData.price}
         />
         <FormValidator error={validateErrors?.price} />
-        <div className="flex flex-col mt-6 mb-1 gap-2 max-w-[50%]">
+        <div className="flex flex-col mt-6 mb-1 gap-2">
           <label
             htmlFor="categories"
             className="font-medium text-primary-txt dark:text-primary-txt-dark"
@@ -71,7 +73,12 @@ const ProductForms = ({
             value={formData.categoryId}
             className="cursor-pointer p-2 border border-secondary-txt focus:border-primary-btn-bg rounded-md outline-none transition-all duration-300 ease-in-out text-primary-txt dark:text-white"
           >
-            <option value="" className="dark:bg-primary-bg-dark cursor-pointer">
+            <option
+              hidden
+              disabled
+              value=""
+              className="dark:bg-primary-bg-dark cursor-pointer"
+            >
               Choose category
             </option>
 
@@ -98,7 +105,7 @@ const ProductForms = ({
         <Button
           type="submit"
           disabled={error && use === "Edit" ? true : false}
-          className={`mt-4 ${
+          className={`mt-8 block ml-auto ${
             error && use === "Edit" ? "grayscale opacity-50" : ""
           }`}
         >

@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const API_URL = "https://api.escuelajs.co/api/v1";
 
@@ -7,7 +7,7 @@ const initialState = {
   isLoggedIn: false,
   token: null,
   user: null,
-  loading: false,
+  isLoading: false,
   error: null,
 };
 
@@ -71,17 +71,17 @@ export const authSlice = createSlice({
     builder
       // Handle login
       .addCase(LogIn.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(LogIn.fulfilled, (state, { payload }) => {
-        state.loading = false;
+        state.isLoading = false;
         state.isLoggedIn = true;
         state.token = payload;
         state.error = null;
       })
       .addCase(LogIn.rejected, (state, { payload }) => {
-        state.loading = false;
+        state.isLoading = false;
         state.isLoggedIn = false;
         state.token = null;
         state.error = payload;
@@ -89,21 +89,22 @@ export const authSlice = createSlice({
 
       // Handle fetching profile
       .addCase(fetchProfile.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(fetchProfile.fulfilled, (state, { payload }) => {
-        state.loading = false;
+        state.isLoading = false;
         state.user = payload;
         state.error = null;
       })
       .addCase(fetchProfile.rejected, (state, { payload }) => {
-        state.loading = false;
+        state.isLoading = false;
         state.user = null;
         state.error = payload;
       });
   },
 });
+
 export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

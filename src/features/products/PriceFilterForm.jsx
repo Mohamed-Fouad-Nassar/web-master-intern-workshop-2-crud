@@ -11,7 +11,13 @@ export default function PriceFilterForm({ closeDropdown }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (minPrice == 0 || maxPrice == 0) return;
+    if (
+      minPrice == 0 ||
+      maxPrice == 0 ||
+      minPrice > maxPrice ||
+      minPrice === maxPrice
+    )
+      return;
 
     searchParams.set("price_min", minPrice);
     searchParams.set("price_max", maxPrice);

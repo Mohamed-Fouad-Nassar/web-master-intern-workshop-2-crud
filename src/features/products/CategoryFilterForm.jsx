@@ -30,19 +30,15 @@ export default function CategoryFilterForm({ closeDropdown }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     if (categoryId === "") return;
     searchParams.set("category", categoryId);
-
     searchParams.delete("page");
     setSearchParams(searchParams);
-
     closeDropdown();
   }
 
   function handleResetFilter() {
     searchParams.delete("category");
-
     setSearchParams(searchParams);
     closeDropdown();
   }

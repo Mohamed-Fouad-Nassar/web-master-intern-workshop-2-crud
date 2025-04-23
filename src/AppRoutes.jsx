@@ -5,6 +5,8 @@ import { Route, Routes, useLocation } from "react-router";
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
 import Error from "./pages/Error";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
@@ -17,8 +19,8 @@ import CreateProduct from "./pages/CreateProduct";
 import SearchResults from "./pages/SearchResults";
 
 import { useCloseModal } from "./hooks/useModal";
+
 import { DarkModeProvider } from "./contexts/DarkModeContext";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function AppRoutes() {
   const { pathname } = useLocation();

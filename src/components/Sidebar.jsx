@@ -4,8 +4,8 @@ import {
   HiOutlineClipboardDocumentList,
   HiOutlineArrowRightOnRectangle,
 } from "react-icons/hi2";
-import { NavLink, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useLocation, useNavigate } from "react-router";
 
 import Button from "./Button";
 
@@ -36,28 +36,30 @@ const PathLinksNavBar = [
 ];
 
 export default function Sidebar() {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
     persistor.purge();
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   return (
-    <nav className="w-24 md:w-3xs row-span-full px-1 sm:px-4 bg-primary-bg dark:bg-primary-bg-dark text-primary-txt dark:text-primary-txt-dark relative">
+    <nav className="w-24 lg:w-3xs row-span-full px-1 lg:px-4 bg-primary-bg dark:bg-primary-bg-dark text-primary-txt dark:text-primary-txt-dark relative border-r border-third-bg dark:border-third-bg-dark">
       <div className="container w-full h-dvh py-6 sticky top-0 flex flex-col justify-between items-center">
-        <h1 className="font-bold text-xs pl-2 md:text-xl w-[90%] uppercase flex justify-center items-center border-l-4 border-third-txt dark:border-third-txt-dark">
+        <h1 className="font-bold text-xs pl-2 lg:text-xl w-[90%] uppercase flex justify-center items-center border-l-4 border-third-txt dark:border-third-txt-dark">
           crud operation
         </h1>
 
-        <div className="pt-10 sm:py-10 w-full flex flex-col gap-4 items-center">
+        <div className="pt-10 lg:py-10 w-full flex flex-col gap-4 items-center">
           <img
             src={user?.avatar ?? profile}
             alt={user?.name ?? ""}
-            className="w-16 md:w-36 h-16 md:h-36 rounded-full object-cover"
+            className="w-16 lg:w-36 h-16 lg:h-36 rounded-full object-cover"
           />
           <div className="details-person w-full h-auto flex flex-col gap-2 justify-center items-center">
             <h1 className="font-bold text-xl text-center">
@@ -69,7 +71,7 @@ export default function Sidebar() {
           </div>
         </div>
 
-        <ul className="w-full flex-1 py-10 flex flex-col gap-4 items-start">
+        <ul className="w-full flex-1 py-10 flex flex-col gap-2 lg:gap-4 items-start">
           {PathLinksNavBar?.map(({ title, icon: Icon, path }, index) => (
             <li key={index} className="w-full flex justify-center items-center">
               <NavLink
@@ -78,10 +80,10 @@ export default function Sidebar() {
                   path === pathname
                     ? "bg-primary-btn-bg/60 dark:bg-primary-btn-bg-dark/60"
                     : "hover:bg-primary-btn-bg/10 dark:hover:bg-primary-btn-bg-dark/10"
-                } mx-2 w-full flex gap-4 justify-center md:justify-start items-center px-4 py-2 rounded`}
+                } mx-2 w-full flex gap-4 justify-center lg:justify-start items-center px-4 py-2 rounded`}
               >
                 <Icon className="text-2xl" />
-                <span className="hidden md:inline">{title}</span>
+                <span className="hidden lg:inline">{title}</span>
               </NavLink>
             </li>
           ))}
@@ -89,10 +91,10 @@ export default function Sidebar() {
         <Button
           onClick={handleLogout}
           variation="ghost"
-          className="w-full flex justify-center md:justify-start items-center gap-4"
+          className="w-full flex justify-center lg:justify-start items-center gap-4"
         >
           <HiOutlineArrowRightOnRectangle className="text-xl" />
-          <span className="hidden md:inline">Logout</span>
+          <span className="hidden lg:inline">Logout</span>
         </Button>
       </div>
     </nav>
