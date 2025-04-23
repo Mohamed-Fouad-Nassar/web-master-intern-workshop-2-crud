@@ -1,15 +1,22 @@
 import { useState } from "react";
-import ProductForms from "../components/ProductForms";
-import { useDispatch, useSelector } from "react-redux";
-import { createNewProduct } from "../api/products";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+
 import Spinner from "../components/Spinner";
+import ProductForms from "../components/ProductForms";
+
+import { createNewProduct } from "../api/products";
+
 import useProductFormValidation from "../hooks/useProductFormValidation";
 
 export default function CreateProduct() {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.products.isLoading);
   const error = useSelector((state) => state.products.error);
+  const isLoading = useSelector((state) => state.products.isLoading);
+
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -17,16 +24,21 @@ export default function CreateProduct() {
     categoryId: "",
     images: [],
   });
+
   const { errors, validate } = useProductFormValidation();
-  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValide = validate(formData);
     if (isValide) {
       dispatch(createNewProduct(formData))
         .unwrap()
-        .then(() => navigate("/products"))
+        .then(() => {
+          toast.success("Product created successfully!");
+          navigate("/products");
+        })
         .catch((err) => {
+          toast.err("Something went wrong!");
           console.error("Error creating product:", err);
         });
     }
@@ -34,11 +46,12 @@ export default function CreateProduct() {
 
   return (
     <>
-      {loading && (
-        <div className="absolute top-0 left-0 w-full min-h-[90vh] dark:bg-black bg-orange-100  flex items-center justify-center z-50">
-          <Spinner size="size-50" />
+      {isLoading && (
+        <div className="absolute top-0 left-0 w-full min-h-[90vh] bg-secondary-bg dark:bg-secondary-bg-dark flex items-center justify-center z-50">
+          <Spinner size="size-14" />
         </div>
       )}
+
       <ProductForms
         use="Create"
         setFormData={setFormData}

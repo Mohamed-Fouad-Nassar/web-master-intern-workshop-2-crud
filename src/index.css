@@ -70,12 +70,11 @@
 .productForms h1::before {
   content: "";
   position: absolute;
-  left: -9px;
-  top: 7px;
+  left: -7px;
+  top: 5px;
   width: 5px;
-  height: 26px;
+  height: 30px;
   background-color: var(--color-primary-btn-bg);
-  border-radius: 0.5rem;
 }
 
 /* product& user modal */

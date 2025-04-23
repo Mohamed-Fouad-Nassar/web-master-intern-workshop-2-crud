@@ -6,7 +6,7 @@ import Modal from "../components/modals/Modal";
 
 export default function MainLayout() {
   return (
-    <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] max-w-full">
+    <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] w-full h-full ">
       <Header />
       <Sidebar />
       <main className="overflow-y-auto bg-secondary-bg dark:bg-secondary-bg-dark">
