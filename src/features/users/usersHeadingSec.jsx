@@ -10,19 +10,15 @@ export default function usersHeadingSec() {
     <section className="flex gap-2 flex-row items-center justify-between border-b border-gray-200 dark:border-gray-300/20 py-2">
       <Heading className="!mb-0">Users List</Heading>
 
-      <div className="flex gap-2 items-center">
-        <Sort />
-
-        <Button
-          as={Link}
-          to="/users/create"
-          className="flex items-center gap-2"
-          title="Navigate to create users page"
-        >
-          <HiPlus className="text-xl" />
-          <span className="hidden md:inline">Add New Users</span>
-        </Button>
-      </div>
+      <Button
+        as={Link}
+        to="/users/create"
+        className="flex items-center gap-2"
+        title="Navigate to create users page"
+      >
+        <HiPlus className="text-xl" />
+        <span className="hidden md:inline">Add New Users</span>
+      </Button>
     </section>
   );
 }

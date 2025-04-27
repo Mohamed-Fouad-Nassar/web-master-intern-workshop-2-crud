@@ -20,9 +20,9 @@ export default function UsersTable({ users }) {
           </tr>
         </thead>
         <tbody>
-          {users.length<=0 ? (
+          {users.length <= 0 ? (
             <tr>
-              <td colSpan={100} className="h-[80vh] [&_div]:mx-auto">
+              <td colSpan={100} className="h-[60vh] [&_div]:mx-auto">
                 <Spinner />
               </td>
             </tr>

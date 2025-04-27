@@ -51,7 +51,7 @@ export default function PriceFilterForm({ closeDropdown }) {
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex gap-2 items-center">
-          <label htmlFor="minPrice" className="min-w-12 text-sm">
+          <label htmlFor="minPrice" className="min-w-8 text-sm">
             Min
           </label>
           <input
@@ -61,11 +61,12 @@ export default function PriceFilterForm({ closeDropdown }) {
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
             // placeholder="Min price..."
-            className="flex-1 mt-0.5 px-1.5 py-0.5 border border-secondary-bg dark:border-secondary-bg-dark rounded"
+            className="block max-w-full flex-1 mt-0.5 px-1.5 py-0.5 border border-secondary-bg dark:border-secondary-bg-dark rounded"
           />
         </div>
+
         <div className="flex gap-2 items-center">
-          <label htmlFor="maxPrice" className="min-w-12 text-sm">
+          <label htmlFor="maxPrice" className="min-w-8 text-sm">
             Max
           </label>
           <input
@@ -75,7 +76,7 @@ export default function PriceFilterForm({ closeDropdown }) {
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
             // placeholder="Max price..."
-            className="flex-1 mt-0.5 px-1.5 py-0.5 border border-secondary-bg dark:border-secondary-bg-dark rounded"
+            className="block max-w-full flex-1 mt-0.5 px-1.5 py-0.5 border border-secondary-bg dark:border-secondary-bg-dark rounded"
           />
         </div>
       </div>

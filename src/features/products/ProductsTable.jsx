@@ -42,7 +42,7 @@ export default function ProductsTable({ products }) {
         <tbody>
           {isLoading ? (
             <tr>
-              <td colSpan={100} className="h-[80vh] [&_div]:mx-auto">
+              <td colSpan={100} className="h-[60vh] [&_div]:mx-auto">
                 <Spinner />
               </td>
             </tr>
@@ -50,7 +50,7 @@ export default function ProductsTable({ products }) {
             <tr>
               <td
                 colSpan={100}
-                className="h-[80vh] mx-auto w-full *:mx-auto text-center font-medium text-xl text-gray-900 dark:text-white"
+                className="h-[60vh] mx-auto w-full *:mx-auto text-center font-medium text-xl text-gray-900 dark:text-white"
               >
                 No Products Here :(
               </td>

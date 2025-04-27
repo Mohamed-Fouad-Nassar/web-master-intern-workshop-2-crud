@@ -24,7 +24,7 @@ export default function Sort() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-12 z-10 w-80 py-2 px-4 rounded text-primary-txt dark:text-primary-txt-dark border border-secondary-bg bg-third-bg shadow dark:border-secondary-bg-dark dark:bg-third-bg-dark">
+        <div className="absolute right-0 top-12 z-10 w-72 py-2 px-4 rounded text-primary-txt dark:text-primary-txt-dark border border-secondary-bg bg-third-bg shadow dark:border-secondary-bg-dark dark:bg-third-bg-dark">
           <h3 className="mb-2 font-medium">Filter Options</h3>
           <PriceFilterForm closeDropdown={closeDropdown} />
           <hr className="my-4 text-secondary-bg dark:text-secondary-bg-dark" />
