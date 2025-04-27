@@ -1,16 +1,18 @@
-import { Link } from "react-router";
-import Spinner from "../components/Spinner";
-import { getProductsCount } from "../services/productsAPI";
-import { getusersCount } from "../services/usersAPI";
-import React, { useContext, useEffect, useState } from "react";
-import AppContext from "../contexts/AppContext";
-
 import {
-  MdAdminPanelSettings,
+  MdApps,
   MdAccountCircle,
   MdOutlinePeopleAlt,
-  MdApps,
+  MdAdminPanelSettings,
 } from "react-icons/md";
+import { Link } from "react-router";
+import { createElement, useContext, useEffect, useState } from "react";
+
+import Spinner from "../components/Spinner";
+
+import { getusersCount } from "../services/usersAPI";
+import { getProductsCount } from "../services/productsAPI";
+
+import AppContext from "../contexts/AppContext";
 
 const contentStyles = {
   icons: {
@@ -51,7 +53,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="w-full h-screen flex items-center justify-center">
+      <div className="w-full h-[80vh] flex items-center justify-center">
         <Spinner />
       </div>
     );
@@ -71,7 +73,7 @@ export default function Dashboard() {
             className="capitalize text-4xl flex flex-col"
             style={{ color: contentStyles.icons.colors[i] }}
           >
-            {React.createElement(contentStyles.icons.svg[i])}
+            {createElement(contentStyles.icons.svg[i])}
             <span className="text-base">{key}</span>
           </h2>
           <p className="text-end text-lg font-semibold">{val}</p>

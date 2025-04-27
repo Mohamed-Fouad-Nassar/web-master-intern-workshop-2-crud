@@ -9,6 +9,7 @@ export default function Login() {
           Enter your credentials to access your account
         </p>
       </div>
+
       <LoginForm />
     </>
   );

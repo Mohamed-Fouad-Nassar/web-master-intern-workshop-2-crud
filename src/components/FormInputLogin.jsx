@@ -1,10 +1,13 @@
-import { Field, ErrorMessage } from "formik";
 import React from "react";
+import { Field, ErrorMessage } from "formik";
 
 const FormInput = ({ label, type, name }) => {
   return (
     <div className="flex flex-col mb-2 gap-2">
-      <label className="font-medium text-primary-txt" htmlFor={name}>
+      <label
+        className="font-medium text-primary-txt dark:text-primary-txt-dark"
+        htmlFor={name}
+      >
         {label}
       </label>
 
@@ -15,7 +18,7 @@ const FormInput = ({ label, type, name }) => {
             id={name}
             type={type}
             placeholder={`Enter ${label}`}
-            className="px-4 py-2 border outline-none focus:border-primary-btn-bg rounded-md border-secondary-txt transition-all duration-300 ease-in-out"
+            className="px-4 py-2 border outline-none focus:border-primary-btn-bg dark:focus:border-primary-btn-bg-dark rounded-md border-secondary-txt dark:border-secondary-txt-dark transition-all duration-300 ease-in-out"
           />
         )}
       </Field>
